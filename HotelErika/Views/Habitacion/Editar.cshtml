@@ -1,0 +1,86 @@
+﻿@model CapaEntidad.entHabitacion
+
+@{
+    ViewData["Title"] = "Editar Habitación";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm rounded">
+                <div class="card-header bg-warning text-dark text-center">
+                    <h4 class="fw-bold mb-0">Editar Habitación</h4>
+                </div>
+
+                <div class="card-body">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <form asp-action="Editar" method="post">
+                        @Html.AntiForgeryToken()
+
+                        @Html.HiddenFor(m => m.Id)
+
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.Numero, htmlAttributes: new { @class = "form-label fw-bold" })
+                            @Html.TextBoxFor(m => m.Numero, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Numero, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.Piso, htmlAttributes: new { @class = "form-label fw-bold" })
+                            @Html.TextBoxFor(m => m.Piso, new { @class = "form-control", type = "number", min = "1" })
+                            @Html.ValidationMessageFor(m => m.Piso, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.Tipo, htmlAttributes: new { @class = "form-label fw-bold" })
+                            @Html.DropDownListFor(m => m.Tipo, new SelectList(new[]
+                            {
+                                new { Value = "", Text = "-- Seleccionar Tipo --" },
+                                                        new { Value = "Simple", Text = "Simple" },
+                                                        new { Value = "Doble", Text = "Doble" },
+                                                        new { Value = "Suite", Text = "Suite" }
+                                                        }, "Value", "Text", Model.Tipo), new { @class = "form-select" })
+                            @Html.ValidationMessageFor(m => m.Tipo, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.Precio, htmlAttributes: new { @class = "form-label fw-bold" })
+                            @Html.TextBoxFor(m => m.Precio, new { @class = "form-control", type = "number", step = "0.01", min = "1" })
+                            @Html.ValidationMessageFor(m => m.Precio, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.Estado, htmlAttributes: new { @class = "form-label fw-bold" })
+                            @Html.DropDownListFor(m => m.Estado, new SelectList(new[]
+                                                        {
+                                new { Value = "", Text = "-- Seleccionar Estado --" },
+                                                        new { Value = "Disponible", Text = "Disponible" },
+                                                        new { Value = "Ocupada", Text = "Ocupada" },
+                                                        new { Value = "Mantenimiento", Text = "Mantenimiento" }
+                                                        }, "Value", "Text", Model.Estado), new { @class = "form-select" })
+                            @Html.ValidationMessageFor(m => m.Estado, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.Descripcion, htmlAttributes: new { @class = "form-label fw-bold" })
+                            @Html.TextAreaFor(m => m.Descripcion, new { @class = "form-control", rows = 3 })
+                            @Html.ValidationMessageFor(m => m.Descripcion, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-warning">
+                                <i class="fas fa-save"></i> Actualizar
+                            </button>
+                            <a asp-action="Index" class="btn btn-secondary">Volver</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

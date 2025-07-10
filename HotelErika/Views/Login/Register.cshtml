@@ -1,0 +1,160 @@
+﻿@model CapaEntidad.entUsuario
+@{
+    ViewData["Title"] = "Registro de Usuario";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm rounded">
+                <div class="card-header bg-dark text-white text-center">
+                    <h3 class="fw-bold mb-0">Registro de Usuario</h3>
+                </div>
+
+                <div class="card-body">
+                    @* Éxito *@
+                    @if (TempData["MensajeExito"] != null)
+                    {
+                        <div class="alert alert-success text-center">@TempData["MensajeExito"]</div>
+                    }
+
+                    @* Error *@
+                    @if (ViewBag.Mensaje != null)
+                    {
+                        <div class="alert alert-danger text-center">@ViewBag.Mensaje</div>
+                    }
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <form asp-action="Register" method="post">
+                        @Html.AntiForgeryToken()
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Nombre" class="form-label fw-bold">Nombre</label>
+                                <input asp-for="Nombre" class="form-control" />
+                                <span asp-validation-for="Nombre" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Apellido" class="form-label fw-bold">Apellido</label>
+                                <input asp-for="Apellido" class="form-control" />
+                                <span asp-validation-for="Apellido" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label fw-bold">Correo Electrónico</label>
+                            <input asp-for="Email" type="email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Password" class="form-label fw-bold">Contraseña</label>
+                            <div class="input-group">
+                                <input asp-for="Password" type="password" class="form-control" id="passwordInput" />
+                                <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                    <i class="fas fa-eye" id="iconPassword"></i>
+                                </button>
+                            </div>
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="RolId" class="form-label fw-bold">Rol</label>
+                            <select asp-for="RolId" class="form-select" onchange="mostrarClave(this)">
+                                <option value="0">-- Seleccionar Rol --</option>
+                                <option value="1">Usuario</option>
+                                <option value="2">Administrador</option>
+                            </select>
+                            <span asp-validation-for="RolId" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3" id="claveAdminDiv" style="display: none;">
+                            <label class="form-label fw-bold">Clave de Autorización</label>
+                            <div class="input-group">
+                                <input name="claveAdmin" id="claveAdmin" type="password" class="form-control" autocomplete="off" disabled />
+                                <button class="btn btn-outline-secondary" type="button" id="toggleClaveAdmin" tabindex="-1" disabled>
+                                    <i class="fas fa-eye" id="iconClaveAdmin"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-user-plus"></i> Registrarse
+                            </button>
+                        </div>
+
+                        <div class="text-center mt-3">
+                            <a asp-action="Login" class="btn btn-link">¿Ya tienes cuenta? Inicia sesión aquí</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@3.2.12/dist/jquery.validate.unobtrusive.min.js"></script>
+
+    <script>
+        function mostrarClave(select) {
+            const claveDiv = document.getElementById("claveAdminDiv");
+            const claveInput = document.getElementById("claveAdmin");
+            const toggleBtn = document.getElementById("toggleClaveAdmin");
+
+            if (select.value === "2") {
+                claveDiv.style.display = "block";
+                claveInput.disabled = false;
+                claveInput.required = true;
+                toggleBtn.disabled = false;
+            } else {
+                claveDiv.style.display = "none";
+                claveInput.disabled = true;
+                claveInput.value = "";
+                toggleBtn.disabled = true;
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const select = document.querySelector('select[name="RolId"]');
+            if (select) mostrarClave(select);
+
+            const togglePassword = document.getElementById("togglePassword");
+            const passwordInput = document.getElementById("passwordInput");
+            const iconPassword = document.getElementById("iconPassword");
+
+            togglePassword.addEventListener("click", function () {
+                if (passwordInput.type === "password") {
+                    passwordInput.type = "text";
+                    iconPassword.classList.remove("fa-eye");
+                    iconPassword.classList.add("fa-eye-slash");
+                } else {
+                    passwordInput.type = "password";
+                    iconPassword.classList.remove("fa-eye-slash");
+                    iconPassword.classList.add("fa-eye");
+                }
+            });
+
+            const toggleClaveAdmin = document.getElementById("toggleClaveAdmin");
+            const claveAdminInput = document.getElementById("claveAdmin");
+            const iconClaveAdmin = document.getElementById("iconClaveAdmin");
+
+            toggleClaveAdmin.addEventListener("click", function () {
+                if (claveAdminInput.type === "password") {
+                    claveAdminInput.type = "text";
+                    iconClaveAdmin.classList.remove("fa-eye");
+                    iconClaveAdmin.classList.add("fa-eye-slash");
+                } else {
+                    claveAdminInput.type = "password";
+                    iconClaveAdmin.classList.remove("fa-eye-slash");
+                    iconClaveAdmin.classList.add("fa-eye");
+                }
+            });
+        });
+    </script>
+}

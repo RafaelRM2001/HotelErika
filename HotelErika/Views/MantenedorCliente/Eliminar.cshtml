@@ -1,0 +1,55 @@
+﻿@model CapaEntidad.entCliente
+
+@{
+    ViewData["Title"] = "Eliminar Cliente";
+}
+
+<div class="container mt-5">
+    <div class="alert alert-danger d-flex align-items-center shadow-sm" role="alert">
+        <i class="fas fa-exclamation-triangle fa-2x me-3"></i>
+        <div>
+            <h4 class="alert-heading">¿Estás seguro que deseas eliminar este cliente?</h4>
+            <p>Esta acción no se puede deshacer. Confirma si realmente deseas eliminar al cliente <strong>@Model.Nombre @Model.Apellido</strong>.</p>
+        </div>
+    </div>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">Nombre:</dt>
+                <dd class="col-sm-9">@Model.Nombre</dd>
+
+                <dt class="col-sm-3">Apellido:</dt>
+                <dd class="col-sm-9">@Model.Apellido</dd>
+
+                <dt class="col-sm-3">Email:</dt>
+                <dd class="col-sm-9">@Model.Email</dd>
+
+                <dt class="col-sm-3">Teléfono:</dt>
+                <dd class="col-sm-9">@Model.Telefono</dd>
+
+                <dt class="col-sm-3">DNI / RUC:</dt>
+                <dd class="col-sm-9">@Model.DNI_RUC</dd>
+
+                <dt class="col-sm-3">Tipo de Cliente:</dt>
+                <dd class="col-sm-9">@Model.TipoCliente</dd>
+            </dl>
+        </div>
+    </div>
+
+    <form asp-action="Eliminar" method="post">
+        <input type="hidden" asp-for="Id" />
+        <div class="d-flex justify-content-end gap-2">
+            <button type="submit" class="btn btn-danger">
+                <i class="fas fa-trash-alt"></i> Eliminar
+            </button>
+            <a asp-action="Listar" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+}

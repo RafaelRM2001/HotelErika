@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36119.2 d17.14
+VisualStudioVersion = 17.14.36119.2
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelErika", "HotelErika\HotelErika.csproj", "{5AC049D7-D501-4E35-B33A-5CC3F54E67C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CapaDatos", "CapaDatos\CapaDatos.csproj", "{E661D5A3-FBA6-4A84-AB31-300103C0A781}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CapaDatos", "CapaDatos\CapaDatos.csproj", "{DE3114E3-B2CB-4C3B-8183-AA70E2E3D33C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CapaEntidad", "CapaEntidad\CapaEntidad.csproj", "{D0A369C9-16ED-47A0-BFE6-B309262CB9F1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CapaEntidad", "CapaEntidad\CapaEntidad.csproj", "{2AF85405-0064-4DF1-8F1F-FD7AE48F7C1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CapaLogica", "CapaLogica\CapaLogica.csproj", "{1330AE22-57E2-4E9B-9A0F-544BC68F451E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CapaLogica", "CapaLogica\CapaLogica.csproj", "{0A735CFD-DF08-4765-A5B1-201E293DD7E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,18 +21,18 @@ Global
 		{5AC049D7-D501-4E35-B33A-5CC3F54E67C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5AC049D7-D501-4E35-B33A-5CC3F54E67C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5AC049D7-D501-4E35-B33A-5CC3F54E67C8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E661D5A3-FBA6-4A84-AB31-300103C0A781}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E661D5A3-FBA6-4A84-AB31-300103C0A781}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E661D5A3-FBA6-4A84-AB31-300103C0A781}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E661D5A3-FBA6-4A84-AB31-300103C0A781}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D0A369C9-16ED-47A0-BFE6-B309262CB9F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D0A369C9-16ED-47A0-BFE6-B309262CB9F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D0A369C9-16ED-47A0-BFE6-B309262CB9F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D0A369C9-16ED-47A0-BFE6-B309262CB9F1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1330AE22-57E2-4E9B-9A0F-544BC68F451E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1330AE22-57E2-4E9B-9A0F-544BC68F451E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1330AE22-57E2-4E9B-9A0F-544BC68F451E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1330AE22-57E2-4E9B-9A0F-544BC68F451E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE3114E3-B2CB-4C3B-8183-AA70E2E3D33C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE3114E3-B2CB-4C3B-8183-AA70E2E3D33C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE3114E3-B2CB-4C3B-8183-AA70E2E3D33C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE3114E3-B2CB-4C3B-8183-AA70E2E3D33C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AF85405-0064-4DF1-8F1F-FD7AE48F7C1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AF85405-0064-4DF1-8F1F-FD7AE48F7C1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AF85405-0064-4DF1-8F1F-FD7AE48F7C1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AF85405-0064-4DF1-8F1F-FD7AE48F7C1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A735CFD-DF08-4765-A5B1-201E293DD7E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A735CFD-DF08-4765-A5B1-201E293DD7E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A735CFD-DF08-4765-A5B1-201E293DD7E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A735CFD-DF08-4765-A5B1-201E293DD7E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

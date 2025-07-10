@@ -1,0 +1,71 @@
+﻿@{
+    ViewData["Title"] = "Iniciar Sesión";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <div class="card shadow-sm rounded">
+                <div class="card-header bg-dark text-white text-center">
+                    <h3 class="fw-bold mb-0">Iniciar Sesión</h3>
+                </div>
+
+                <div class="card-body">
+
+                    @* Mensaje de error *@
+                    @if (ViewBag.Mensaje != null)
+                    {
+                        <div class="alert alert-danger text-center">@ViewBag.Mensaje</div>
+                    }
+
+                    <form asp-action="Login" method="post">
+                        @Html.AntiForgeryToken()
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label fw-bold">Correo Electrónico</label>
+                            <input type="email" name="email" class="form-control" placeholder="ejemplo@correo.com" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label fw-bold">Contraseña</label>
+                            <div class="input-group">
+                                <input type="password" name="password" id="passwordInput" class="form-control" placeholder="********" required />
+                                <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                    <i class="fas fa-eye" id="toggleIcon"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-sign-in-alt"></i> Ingresar
+                            </button>
+                        </div>
+
+                        <div class="text-center mt-3">
+                            <a asp-action="Register" class="btn btn-link">¿No tienes cuenta? Regístrate aquí</a>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script>
+        document.getElementById("togglePassword").addEventListener("click", function () {
+            const passwordInput = document.getElementById("passwordInput");
+            const icon = document.getElementById("toggleIcon");
+            const isPassword = passwordInput.type === "password";
+
+            passwordInput.type = isPassword ? "text" : "password";
+            icon.classList.toggle("fa-eye");
+            icon.classList.toggle("fa-eye-slash");
+        });
+    </script>
+}

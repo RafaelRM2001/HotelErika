@@ -1,0 +1,59 @@
+﻿@model CapaEntidad.entHabitacion
+
+@{
+    ViewData["Title"] = "Eliminar Habitación";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-danger shadow-sm rounded">
+                <div class="card-header bg-danger text-white text-center">
+                    <h4 class="fw-bold mb-0">¿Eliminar Habitación?</h4>
+                </div>
+
+                <div class="card-body">
+                    <p class="text-center text-danger fw-bold mb-4">
+                        ¿Estás seguro que deseas eliminar permanentemente esta habitación?
+                    </p>
+
+                    <dl class="row">
+                        <dt class="col-sm-4">Número</dt>
+                        <dd class="col-sm-8">@Model.Numero</dd>
+
+                        <dt class="col-sm-4">Piso</dt>
+                        <dd class="col-sm-8">@Model.Piso</dd>
+
+                        <dt class="col-sm-4">Tipo</dt>
+                        <dd class="col-sm-8">@Model.Tipo</dd>
+
+                        <dt class="col-sm-4">Precio</dt>
+                        <dd class="col-sm-8">S/ @Model.Precio.ToString("F2")</dd>
+
+                        <dt class="col-sm-4">Estado</dt>
+                        <dd class="col-sm-8">@Model.Estado</dd>
+
+                        <dt class="col-sm-4">¿Activo?</dt>
+                        <dd class="col-sm-8">
+                            @Html.Raw(Model.Activo
+                                                        ? "<span class='badge bg-success'>Sí</span>"
+                                                        : "<span class='badge bg-danger'>No</span>")
+                        </dd>
+                    </dl>
+
+                    <form asp-action="Eliminar" method="post">
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.Id)
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-trash-alt"></i> Confirmar Eliminación
+                            </button>
+                            <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

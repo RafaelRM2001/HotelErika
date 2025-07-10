@@ -1,0 +1,90 @@
+﻿@model CapaEntidad.entCliente
+
+@{
+    ViewData["Title"] = "Registrar Cliente";
+}
+
+<div class="container mt-5">
+    <h2 class="text-primary mb-4">Registrar Nuevo Cliente</h2>
+
+    <form asp-action="InsertarCliente" method="post" class="shadow p-4 rounded bg-light">
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label asp-for="Nombre" class="form-label">Nombre</label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="Apellido" class="form-label">Apellido</label>
+                <input asp-for="Apellido" class="form-control" />
+                <span asp-validation-for="Apellido" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label asp-for="Email" class="form-label">Email</label>
+                <input asp-for="Email" type="email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="Telefono" class="form-label">Teléfono</label>
+                <input asp-for="Telefono" class="form-control" />
+                <span asp-validation-for="Telefono" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label asp-for="DNI_RUC" class="form-label">DNI / RUC</label>
+                <input asp-for="DNI_RUC" class="form-control" />
+                <span asp-validation-for="DNI_RUC" class="text-danger"></span>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="TipoCliente" class="form-label">Tipo de Cliente</label>
+                <select asp-for="TipoCliente" class="form-select">
+                    <option value="">-- Seleccionar --</option>
+                    <option>Natural</option>
+                    <option>Jurídico</option>
+                </select>
+                <span asp-validation-for="TipoCliente" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Direccion" class="form-label">Dirección</label>
+            <input asp-for="Direccion" class="form-control" />
+            <span asp-validation-for="Direccion" class="text-danger"></span>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label asp-for="FechaNacimiento" class="form-label">Fecha de Nacimiento</label>
+                <input asp-for="FechaNacimiento" type="date" class="form-control" />
+                <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="Activo" class="form-label">¿Activo?</label>
+                <select asp-for="Activo" class="form-select">
+                    <option value="true">Sí</option>
+                    <option value="false">No</option>
+                </select>
+                <span asp-validation-for="Activo" class="text-danger"></span>
+            </div>
+        </div>
+
+        <input type="hidden" asp-for="FechaRegistro" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss")" />
+
+        <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-primary me-2">
+                <i class="fas fa-save"></i> Guardar
+            </button>
+            <a asp-action="Listar" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+}

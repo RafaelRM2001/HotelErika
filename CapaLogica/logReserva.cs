@@ -6,10 +6,7 @@ using System.Threading.Tasks;
 
 namespace CapaLogica
 {
-    internal class Program
+    internal class logReserva
     {
-        static void Main(string[] args)
-        {
-        }
     }
 }
