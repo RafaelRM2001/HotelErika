@@ -51,7 +51,11 @@ namespace CapaLogica
             return datHabitacion.Instancia.ExisteNumeroHabitacion(numero);
         }
 
-
+        public List<entHabitacion> ListarHabitacionesDisponibles()
+        {
+            // Asume que el método ya existe en la capa datos
+            return datHabitacion.Instancia.ListarHabitacionesDisponibles();
+        }
 
         public bool EliminarHabitacion(int id)
         {

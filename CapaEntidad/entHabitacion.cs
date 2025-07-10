@@ -39,5 +39,7 @@ namespace CapaEntidad
         public DateTime? FechaActualizacion { get; set; }
 
         public bool Activo { get; set; }
+
+        public string DescripcionExtendida => $"{Numero} - {Tipo} - S/ {Precio}";
     }
 }

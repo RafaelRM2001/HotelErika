@@ -1,0 +1,24 @@
+﻿@{
+}
+
+@model CapaEntidad.entReserva
+
+@{
+    ViewData["Title"] = "Aplazar Reserva";
+}
+
+<h2>Aplazar Reserva</h2>
+
+<form asp-action="Aplazar" method="post">
+    <input type="hidden" name="id" value="@Model.Id" />
+    <div class="mb-3">
+        <label>Nueva Fecha Ingreso</label>
+        <input name="nuevaFechaIngreso" class="form-control" type="date" required />
+    </div>
+    <div class="mb-3">
+        <label>Nueva Fecha Salida</label>
+        <input name="nuevaFechaSalida" class="form-control" type="date" required />
+    </div>
+    <button type="submit" class="btn btn-warning">Aplazar</button>
+    <a asp-action="Listar" class="btn btn-secondary">Cancelar</a>
+</form>

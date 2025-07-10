@@ -7,7 +7,7 @@ using System.Text;
 using System.Security.Cryptography;
 
 namespace HotelErika.Controllers
-{
+{   
     public class LoginController : Controller
     {
         //esta es la clave--
@@ -20,7 +20,7 @@ namespace HotelErika.Controllers
             {
                 byte[] bytes = Encoding.UTF8.GetBytes(password);
                 byte[] hash = sha256.ComputeHash(bytes);
-                return BitConverter.ToString(hash).Replace("-", "").ToLower();
+                return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
             }
         }
 
@@ -39,6 +39,10 @@ namespace HotelErika.Controllers
 
             // 🔒 Encriptar antes de comparar
             string passwordHash = HashPassword(password.Trim());
+
+            Console.WriteLine($"Email: {email}");
+            Console.WriteLine($"Password ingresado: {password}");
+            Console.WriteLine($"Hash generado: {passwordHash}");
 
             var usuario = logUsuario.Instancia.LoginUsuario(email.Trim(), passwordHash);
 

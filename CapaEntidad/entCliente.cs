@@ -41,5 +41,7 @@ namespace CapaEntidad
 
         public bool Activo { get; set; }
 
+        public string NombreCompleto => $"{Nombre} {Apellido}";
+
     }
 }

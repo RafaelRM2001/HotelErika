@@ -1,0 +1,43 @@
+﻿@{
+}
+
+@model List<CapaEntidad.entReserva>
+
+@{
+    ViewData["Title"] = "Reservas";
+}
+
+<h2>Lista de Reservas</h2>
+
+<a class="btn btn-primary mb-3" asp-action="Crear">Nueva Reserva</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Cliente</th>
+            <th>Habitación</th>
+            <th>Ingreso</th>
+            <th>Salida</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var r in Model)
+        {
+            <tr>
+                <td>@r.NombreCliente</td>
+                <td>@r.NumeroHabitacion</td>
+                <td>@r.FechaIngreso.ToShortDateString()</td>
+                <td>@r.FechaSalida.ToShortDateString()</td>
+                <td>@r.Estado</td>
+                <td>
+                    @if (r.Estado == "Reservado")
+                    {
+                        <a class="btn btn-warning btn-sm" asp-action="Aplazar" asp-route-id="@r.Id">Aplazar</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

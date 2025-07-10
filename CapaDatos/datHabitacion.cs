@@ -45,6 +45,34 @@ namespace CapaDatos
             return lista;
         }
 
+        public List<entHabitacion> ListarHabitacionesDisponibles()
+        {
+            List<entHabitacion> lista = new List<entHabitacion>();
+
+            using (SqlConnection cn = conexion.Instancia.Conectar())
+            {
+                SqlCommand cmd = new SqlCommand("spListarHabitacionesDisponibles", cn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cn.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    lista.Add(new entHabitacion
+                    {
+                        Id = Convert.ToInt32(dr["Id"]),
+                        Numero = dr["Numero"].ToString(),
+                        Tipo = dr["Tipo"].ToString(),
+                        Precio = Convert.ToDecimal(dr["Precio"]),
+                        Estado = dr["Estado"].ToString(),
+                        Descripcion = dr["Descripcion"].ToString()
+                    });
+                }
+            }
+
+            return lista;
+        }
+
         public entHabitacion Buscar(int id)
         {
             entHabitacion hab = null;
@@ -151,10 +179,5 @@ namespace CapaDatos
                 return cantidad > 0;
             }
         }
-
-
-
-
-
     }
 }

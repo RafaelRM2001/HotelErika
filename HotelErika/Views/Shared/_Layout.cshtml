@@ -87,10 +87,13 @@
                         </li>
                     }
 
-                    @* Reservas accesible para todos *@
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="MantenedorReserva" asp-action="Listar">Reservas</a>
-                    </li>
+                    @* Reservas visible solo si ha iniciado sesión *@
+                    @if (!string.IsNullOrEmpty(usuarioNombre))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="MantenedorReserva" asp-action="Listar">Reservas</a>
+                        </li>
+                    }
 
                     @* Usuario actual + Cerrar sesión *@
                     <li class="nav-item dropdown">

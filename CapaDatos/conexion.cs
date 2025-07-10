@@ -23,12 +23,10 @@ namespace CapaDatos
         public SqlConnection Conectar()
         {
             SqlConnection cn = new SqlConnection();
-            cn.ConnectionString = "Data Source=DESKTOP-51RAHDP\\SQLEXPRESS; Initial Catalog=DBHotelErika; Integrated Security=True;";
+            //cn.ConnectionString = "Data Source=DESKTOP-51RAHDP\\SQLEXPRESS; Initial Catalog=DBHotelErika; Integrated Security=True;";
+            cn.ConnectionString = "Data Source=DESKTOP-1T9J9CT; Initial Catalog=DBHotelErika; Integrated Security=True;";
             return cn;
         }
-
-
-
     }
 }
 
