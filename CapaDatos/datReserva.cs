@@ -24,7 +24,7 @@ namespace CapaDatos
             entReserva resultado = null;
             try
             {
-                var cn = conexion.Instancia.Conectar();
+                var cn = Conexion.Instancia.Conectar();
                 cmd = new SqlCommand("spObtenerNombreApellidoPorDNI", cn) // ← nombre corregido
                 {
                     CommandType = CommandType.StoredProcedure
@@ -65,7 +65,7 @@ namespace CapaDatos
             var lista = new List<string>();
             try
             {
-                var cn = conexion.Instancia.Conectar();
+                var cn = Conexion.Instancia.Conectar();
                 cmd = new SqlCommand("spListarTiposHabitacion", cn)
                 {
                     CommandType = CommandType.StoredProcedure
@@ -99,7 +99,7 @@ namespace CapaDatos
             var lista = new List<entReserva>();
             try
             {
-                var cn = conexion.Instancia.Conectar();
+                var cn = Conexion.Instancia.Conectar();
                 cmd = new SqlCommand("spListarHabitacionesPorTipo", cn)
                 {
                     CommandType = CommandType.StoredProcedure
@@ -138,7 +138,7 @@ namespace CapaDatos
             decimal precio = 0m;
             try
             {
-                var cn = conexion.Instancia.Conectar();
+                var cn = Conexion.Instancia.Conectar();
                 cmd = new SqlCommand("spObtenerPrecioHabitacion", cn)
                 {
                     CommandType = CommandType.StoredProcedure
@@ -168,7 +168,7 @@ namespace CapaDatos
             var lista = new List<entReserva>();
             try
             {
-                var cn = conexion.Instancia.Conectar();
+                var cn = Conexion.Instancia.Conectar();
                 cmd = new SqlCommand("spListarReserva", cn)
                 {
                     CommandType = CommandType.StoredProcedure
@@ -212,7 +212,7 @@ namespace CapaDatos
             bool insertado = false;
             try
             {
-                var cn = conexion.Instancia.Conectar();
+                var cn = Conexion.Instancia.Conectar();
                 cmd = new SqlCommand("spInsertarReserva", cn)
                 {
                     CommandType = CommandType.StoredProcedure
@@ -251,7 +251,7 @@ namespace CapaDatos
             entReserva r = null;
             try
             {
-                var cn = conexion.Instancia.Conectar();
+                var cn = Conexion.Instancia.Conectar();
                 cmd = new SqlCommand("spObtenerReservaPorId", cn)
                 {
                     CommandType = CommandType.StoredProcedure
@@ -300,7 +300,7 @@ namespace CapaDatos
             var lista = new List<entReserva>();
             try
             {
-                var cn = conexion.Instancia.Conectar();
+                var cn = Conexion.Instancia.Conectar();
                 cmd = new SqlCommand("spObtenerReservasPorUsuario", cn)
                 {
                     CommandType = CommandType.StoredProcedure
@@ -347,7 +347,7 @@ namespace CapaDatos
             bool cancelado = false;
             try
             {
-                var cn = conexion.Instancia.Conectar();
+                var cn = Conexion.Instancia.Conectar();
                 cmd = new SqlCommand("spCancelarReserva", cn)
                 {
                     CommandType = CommandType.StoredProcedure
@@ -373,7 +373,7 @@ namespace CapaDatos
             bool actualizado = false;
             try
             {
-                var cn = conexion.Instancia.Conectar();
+                var cn = Conexion.Instancia.Conectar();
                 cmd = new SqlCommand("spReprogramarReserva", cn)
                 {
                     CommandType = CommandType.StoredProcedure

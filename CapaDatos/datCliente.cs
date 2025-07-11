@@ -30,7 +30,7 @@ namespace CapaDatos
             List<entCliente> lista = new List<entCliente>();
             try
             {
-                SqlConnection cn = conexion.Instancia.Conectar();
+                SqlConnection cn = Conexion.Instancia.Conectar();
                 cmd = new SqlCommand("spListarCliente", cn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cn.Open();
@@ -70,7 +70,7 @@ namespace CapaDatos
             Boolean inserta = false;
             try
             {
-                SqlConnection cn = conexion.Instancia.Conectar();
+                SqlConnection cn = Conexion.Instancia.Conectar();
                 cmd = new SqlCommand("spInsertarCliente", cn);
                 cmd.CommandType = CommandType.StoredProcedure;
 
@@ -105,7 +105,7 @@ namespace CapaDatos
 
         public entCliente ObtenerClientePorId(int id)
         {
-            SqlConnection cn = conexion.Instancia.Conectar();
+            SqlConnection cn = Conexion.Instancia.Conectar();
             SqlCommand cmd = new SqlCommand("sp_ObtenerClientePorId", cn);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Id", id);
@@ -138,7 +138,7 @@ namespace CapaDatos
 
         public bool EliminarCliente(int id)
         {
-            SqlConnection cn = conexion.Instancia.Conectar();
+            SqlConnection cn = Conexion.Instancia.Conectar();
             SqlCommand cmd = new SqlCommand("sp_EliminarCliente", cn);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Id", id);
@@ -154,7 +154,7 @@ namespace CapaDatos
             bool actualizado = false;
             try
             {
-                SqlConnection cn = conexion.Instancia.Conectar();
+                SqlConnection cn = Conexion.Instancia.Conectar();
                 cmd = new SqlCommand("sp_EditarCliente", cn);
                 cmd.CommandType = CommandType.StoredProcedure;
 

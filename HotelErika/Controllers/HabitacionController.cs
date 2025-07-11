@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using CapaEntidad;
+﻿using CapaEntidad;
 using CapaLogica;
+using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Data.SqlClient;
 
 namespace HotelErika.Controllers
 {
@@ -144,6 +145,5 @@ namespace HotelErika.Controllers
 
             return View(habitacion);
         }
-
     }
 }

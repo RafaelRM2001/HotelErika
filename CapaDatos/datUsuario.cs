@@ -20,7 +20,7 @@ namespace CapaDatos
 
             try
             {
-                cn = conexion.Instancia.Conectar();
+                cn = Conexion.Instancia.Conectar();
                 cmd = new SqlCommand(@"
                     SELECT U.*, R.Nombre AS RolNombre 
                     FROM Usuarios U 
@@ -70,7 +70,7 @@ namespace CapaDatos
 
             try
             {
-                cn = conexion.Instancia.Conectar();
+                cn = Conexion.Instancia.Conectar();
                 cmd = new SqlCommand("spRegistrarUsuario", cn);
                 cmd.CommandType = CommandType.StoredProcedure;
 
@@ -79,6 +79,7 @@ namespace CapaDatos
                 cmd.Parameters.AddWithValue("@Email", u.Email);
                 cmd.Parameters.AddWithValue("@Password", u.Password);
                 cmd.Parameters.AddWithValue("@RolId", u.RolId);
+                cmd.Parameters.AddWithValue("@DNI_RUC", u.DNI_RUC);
                 cmd.Parameters.AddWithValue("@FechaRegistro", u.FechaRegistro);
                 cmd.Parameters.AddWithValue("@Activo", u.Activo);
 
@@ -107,7 +108,7 @@ namespace CapaDatos
 
             try
             {
-                cn = conexion.Instancia.Conectar();
+                cn = Conexion.Instancia.Conectar();
                 cmd = new SqlCommand("spObtenerRolIdPorNombre", cn);
                 cmd.CommandType = CommandType.StoredProcedure;
 
@@ -134,6 +135,35 @@ namespace CapaDatos
             }
 
             return rolId;
+        }
+
+        // OBTENER DATOS DEL USUARIO POR ID
+        public entUsuario ObtenerUsuarioPorId(int id)
+        {
+            entUsuario u = null;
+            using (SqlConnection cn = Conexion.Instancia.Conectar())
+            {
+                SqlCommand cmd = new SqlCommand("SELECT * FROM Usuarios WHERE Id = @Id", cn);
+                cmd.Parameters.AddWithValue("@Id", id);
+                cn.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                if (dr.Read())
+                {
+                    u = new entUsuario
+                    {
+                        Id = Convert.ToInt32(dr["Id"]),
+                        Nombre = dr["Nombre"].ToString(),
+                        Apellido = dr["Apellido"].ToString(),
+                        Email = dr["Email"].ToString(),
+                        DNI_RUC = dr["DNI_RUC"].ToString(), 
+                        RolId = Convert.ToInt32(dr["RolId"]),
+                        FechaRegistro = Convert.ToDateTime(dr["FechaRegistro"]),
+                        FechaActualizacion = dr["FechaActualizacion"] == DBNull.Value ? null : Convert.ToDateTime(dr["FechaActualizacion"]),
+                        Activo = Convert.ToBoolean(dr["Activo"])
+                    };
+                }
+            }
+            return u;
         }
     }
 }

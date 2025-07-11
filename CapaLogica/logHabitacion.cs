@@ -64,5 +64,9 @@ namespace CapaLogica
             return datHabitacion.Instancia.CambiarEstado(numeroHabitacion, nuevoEstado);
         }
 
+        public decimal ObtenerPrecioPorNumero(string numeroHabitacion)
+        {
+            return datHabitacion.Instancia.ObtenerPrecioPorNumero(numeroHabitacion);
+        }
     }
 }

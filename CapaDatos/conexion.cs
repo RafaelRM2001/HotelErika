@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace CapaDatos
 {
-    class conexion
+    class Conexion
     {
         #region singleton
-        private static readonly conexion UnicaInstancia = new conexion();
-        public static conexion Instancia
+        private static readonly Conexion UnicaInstancia = new Conexion();
+        public static Conexion Instancia
         {
             get
             {
-                return conexion.UnicaInstancia;
+                return Conexion.UnicaInstancia;
             }
         }
         #endregion singleton

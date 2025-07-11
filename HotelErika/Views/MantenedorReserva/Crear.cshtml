@@ -25,20 +25,6 @@
         animation: fadeIn 1s ease-in-out;
     }
 
-
-
-    {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    }
-
     h2 {
         text-align: center;
         color: #2c3e50;
@@ -116,7 +102,6 @@
     .text-center {
         text-align: center;
     }
-
 </style>
 
 <div class="form-container">
@@ -124,11 +109,10 @@
 
     <div class="text-danger text-center mb-3">@ViewBag.Mensaje</div>
 
-    <form asp-action="Crear" method="post">
+    <form asp-action="ConfirmarReserva" method="post" autocomplete="off">
         <div class="form-group">
-            <label asp-for="DNI_RUC"></label>
-            <input asp-for="DNI_RUC" class="form-control" id="dniInput" />
-            <span asp-validation-for="DNI_RUC" class="text-danger"></span>
+            <label asp-for="DNI_RUC">DNI / RUC</label>
+            <input asp-for="DNI_RUC" class="form-control" readonly />
         </div>
 
         <div class="form-group">
@@ -143,16 +127,24 @@
 
         <div class="form-group">
             <label asp-for="TipoHabitacion"></label>
-            <select asp-for="TipoHabitacion" class="form-select" id="tipoSelect" asp-items="new SelectList(ViewBag.TiposHabitacion)">
+            <select asp-for="TipoHabitacion" class="form-select" asp-items="new SelectList(ViewBag.TiposHabitacion)">
                 <option value="">-- Selecciona tipo --</option>
             </select>
             <span asp-validation-for="TipoHabitacion" class="text-danger"></span>
         </div>
 
+        <!-- Número de Habitación -->
         <div class="form-group">
             <label asp-for="NumeroHabitacion"></label>
             <select asp-for="NumeroHabitacion" class="form-select" id="habitacionSelect">
                 <option value="">-- Selecciona habitación --</option>
+                @if (ViewBag.Habitaciones != null)
+                {
+                    foreach (var h in ViewBag.Habitaciones)
+                    {
+                        <option value="@h.NumeroHabitacion">@h.NumeroHabitacion</option>
+                    }
+                }
             </select>
             <span asp-validation-for="NumeroHabitacion" class="text-danger"></span>
         </div>
@@ -175,59 +167,67 @@
         </div>
 
         <div class="button-group">
-            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
-            <a asp-action="Index" class="btn btn-secondary"><i class="fas fa-times"></i> Cancelar</a>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
         </div>
     </form>
 </div>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-    <script src="https://imgs.search.brave.com/EM2kmOUPMvhOXopsjvn6dUuLxMoxkf5fJolTYdNwF0k/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZW50/cm9tYWxscXVpLnBl/L3dwLWNvbnRlbnQv/dXBsb2Fkcy8yMDI0/LzA2L0N1YW50YXMt/cGxheWFzLXRpZW5l/LWxhLWNvc3RhLXBl/cnVhbmEtNzY4eDQx/MC5qcGc" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const habitacionSelect = document.getElementById("habitacionSelect");
+            const precioInput = document.getElementById("precioInput");
+
+            if (habitacionSelect) {
+                habitacionSelect.addEventListener("change", function () {
+                    const numero = habitacionSelect.value;
+
+                    if (numero) {
+                        fetch(`/MantenedorReserva/ObtenerPrecio?numero=${numero}`)
+                            .then(response => response.json())
+                            .then(precio => {
+                                precioInput.value = parseFloat(precio).toFixed(2);
+                            })
+                            .catch(error => {
+                                console.error("Error al obtener precio:", error);
+                                precioInput.value = "";
+                            });
+                    } else {
+                        precioInput.value = "";
+                    }
+                });
+            }
+        });
+    </script>
 
     <script>
-        $(document).ready(function () {
-            // Autocompletar nombre y apellido por DNI
-            $("#dniInput").on("blur", function () {
-                const dni = $(this).val();
-                if (dni.length > 0) {
-                    $.getJSON("/Reserva/BuscarClientePorDNI", { dni: dni }, function (data) {
-                        if (data) {
-                            $("input[name='Nombre']").val(data.nombre);
-                            $("input[name='Apellido']").val(data.apellido);
-                        } else {
-                            $("input[name='Nombre']").val('');
-                            $("input[name='Apellido']").val('');
-                            alert("Cliente no encontrado.");
-                        }
-                    });
-                }
-            });
+        document.addEventListener("DOMContentLoaded", function () {
+            const tipoSelect = document.querySelector('[name="TipoHabitacion"]');
+            const habitacionSelect = document.getElementById("habitacionSelect");
 
-            // Cargar habitaciones al cambiar tipo
-            $("#tipoSelect").change(function () {
-                const tipo = $(this).val();
-                if (tipo.length > 0) {
-                    $.getJSON("/Reserva/ObtenerHabitaciones", { tipo: tipo }, function (habitaciones) {
-                        let options = '<option value="">-- Selecciona habitación --</option>';
-                        $.each(habitaciones, function (i, hab) {
-                            options += `<option value="${hab.numeroHabitacion}">${hab.numeroHabitacion}</option>`;
-                        });
-                        $("#habitacionSelect").html(options);
-                        $("#precioInput").val('');
-                    });
-                }
-            });
+            if (tipoSelect) {
+                tipoSelect.addEventListener("change", function () {
+                    const tipo = tipoSelect.value;
+                    habitacionSelect.innerHTML = '<option value="">-- Selecciona habitación --</option>';
 
-            // Mostrar precio al seleccionar habitación
-            $("#habitacionSelect").change(function () {
-                const numero = $(this).val();
-                if (numero.length > 0) {
-                    $.getJSON("/Reserva/ObtenerPrecio", { numero: numero }, function (precio) {
-                        $("#precioInput").val(precio);
-                    });
-                }
-            });
+                    if (tipo) {
+                        fetch(`/MantenedorReserva/ObtenerHabitaciones?tipo=${tipo}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                data.forEach(h => {
+                                    const opt = document.createElement("option");
+                                    opt.value = h.numeroHabitacion;
+                                    opt.textContent = h.numeroHabitacion;
+                                    habitacionSelect.appendChild(opt);
+                                });
+                            })
+                            .catch(error => {
+                                console.error("Error al obtener habitaciones:", error);
+                            });
+                    }
+                });
+            }
         });
     </script>
 }

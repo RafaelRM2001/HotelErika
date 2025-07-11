@@ -1,0 +1,150 @@
+﻿@{
+    ViewData["Title"] = "Pago";
+    var reservaId = ViewBag.ReservaId;
+    var monto = ViewBag.Monto ?? 0.0m;
+}
+
+<style>
+    .pago-container {
+        background: #ffffffcc;
+        padding: 40px;
+        max-width: 600px;
+        margin: 50px auto;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    h2 {
+        text-align: center;
+        color: #2c3e50;
+        margin-bottom: 30px;
+    }
+
+    label {
+        font-weight: 600;
+        margin-top: 15px;
+        display: block;
+        color: #34495e;
+    }
+
+    select, input[type="text"], input[type="number"] {
+        width: 100%;
+        padding: 12px;
+        margin-top: 5px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 1rem;
+    }
+
+    button {
+        width: 100%;
+        margin-top: 25px;
+        padding: 14px;
+        background-color: #3498db;
+        border: none;
+        border-radius: 8px;
+        color: white;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+    .form-section {
+        display: none;
+        margin-top: 10px;
+    }
+
+    img {
+        display: block;
+        margin: 10px auto;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+    }
+</style>
+
+<div class="pago-container">
+    <h2>Método de Pago</h2>
+
+    <form asp-action="Pagar" method="post">
+        <input type="hidden" name="reservaId" value="@reservaId" />
+
+        <label>Método de pago:</label>
+        <select id="metodoPago" name="metodoPago" onchange="mostrarFormulario()">
+            <option value="Tarjeta">Tarjeta</option>
+            <option value="Yape">Yape</option>
+            <option value="Efectivo">Efectivo</option>
+        </select>
+
+        <div id="formTarjeta" style="display:none;">
+            <label>Número de tarjeta:</label>
+            <input type="text" name="numTarjeta" pattern="(?:\d{4} ?){4}" maxlength="19" required title="Debe tener 16 dígitos, puede estar separado en bloques de 4" />
+
+            <label>CVV:</label>
+            <input type="text" name="cvv" pattern="\d{3}" maxlength="3" required title="Debe tener 3 dígitos" /><br />
+
+            <label>Fecha Exp:</label>
+            <input type="text" /><br/>
+        </div>
+
+        <div id="formYape" class="form-section">
+            <p>Escanea el siguiente código QR:</p>
+            <img src="~/img/qr_yape.png" width="200" />
+        </div>
+
+        <div id="formEfectivo" class="form-section">
+            <p>El pago se realizará en efectivo en el hotel.</p>
+        </div>
+
+        <label>Total a pagar:</label>
+        <input type="text" name="monto" class="form-control fs-4 text-success" value="@ViewBag.Monto?.ToString("F2")" readonly />
+
+        <button type="submit">Confirmar pago</button>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        function mostrarFormulario() {
+            const metodo = document.getElementById('metodoPago').value;
+
+            document.querySelectorAll('.form-section').forEach(div => div.style.display = 'none');
+
+            if (metodo === 'Tarjeta') {
+                document.getElementById('formTarjeta').style.display = 'block';
+            } else if (metodo === 'Yape') {
+                document.getElementById('formYape').style.display = 'block';
+            } else if (metodo === 'Efectivo') {
+                document.getElementById('formEfectivo').style.display = 'block';
+            }
+        }
+
+        // Mostrar sección correcta por defecto si se vuelve a la página
+        document.addEventListener("DOMContentLoaded", mostrarFormulario);
+    </script>
+
+    <script>
+        function mostrarFormulario() {
+            const metodo = document.getElementById('metodoPago').value;
+            document.getElementById('formTarjeta').style.display = (metodo === 'Tarjeta') ? 'block' : 'none';
+            document.getElementById('formYape').style.display = (metodo === 'Yape') ? 'block' : 'none';
+            document.getElementById('formEfectivo').style.display = (metodo === 'Efectivo') ? 'block' : 'none';
+        }
+
+        // Formatear tarjeta 1234 5678 9012 3456
+        document.addEventListener('DOMContentLoaded', function () {
+            const tarjetaInput = document.querySelector('input[name="numTarjeta"]');
+            if (tarjetaInput) {
+                tarjetaInput.addEventListener('input', function (e) {
+                    let valor = tarjetaInput.value.replace(/\D/g, '').substring(0, 16);
+                    let bloques = valor.match(/.{1,4}/g);
+                    tarjetaInput.value = bloques ? bloques.join(' ') : '';
+                });
+            }
+        });
+    </script>
+}

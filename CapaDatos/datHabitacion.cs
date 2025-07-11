@@ -15,7 +15,7 @@ namespace CapaDatos
         {
             List<entHabitacion> lista = new List<entHabitacion>();
 
-            using (SqlConnection con = conexion.Instancia.Conectar())
+            using (SqlConnection con = Conexion.Instancia.Conectar())
             {
                 SqlCommand cmd = new SqlCommand("spListarHabitaciones", con)
                 {
@@ -49,7 +49,7 @@ namespace CapaDatos
         {
             List<entHabitacion> lista = new List<entHabitacion>();
 
-            using (SqlConnection cn = conexion.Instancia.Conectar())
+            using (SqlConnection cn = Conexion.Instancia.Conectar())
             {
                 SqlCommand cmd = new SqlCommand("spListarHabitacionesDisponibles", cn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -77,7 +77,7 @@ namespace CapaDatos
         {
             entHabitacion hab = null;
 
-            using (SqlConnection con = conexion.Instancia.Conectar())
+            using (SqlConnection con = Conexion.Instancia.Conectar())
             {
                 SqlCommand cmd = new SqlCommand("spObtenerHabitacionPorId", con) // corregido
                 {
@@ -110,7 +110,7 @@ namespace CapaDatos
 
         public bool Insertar(entHabitacion h)
         {
-            using (SqlConnection con = conexion.Instancia.Conectar())
+            using (SqlConnection con = Conexion.Instancia.Conectar())
             {
                 SqlCommand cmd = new SqlCommand("spInsertarHabitacion", con)
                 {
@@ -132,7 +132,7 @@ namespace CapaDatos
 
         public bool Editar(entHabitacion h)
         {
-            using (SqlConnection con = conexion.Instancia.Conectar())
+            using (SqlConnection con = Conexion.Instancia.Conectar())
             {
                 SqlCommand cmd = new SqlCommand("spActualizarHabitacion", con) // corregido
                 {
@@ -154,7 +154,7 @@ namespace CapaDatos
 
         public bool Eliminar(int id)
         {
-            using (SqlConnection con = conexion.Instancia.Conectar())
+            using (SqlConnection con = Conexion.Instancia.Conectar())
             {
                 SqlCommand cmd = new SqlCommand("spEliminarHabitacion", con)
                 {
@@ -169,7 +169,7 @@ namespace CapaDatos
         }
         public bool ExisteNumeroHabitacion(string numero)
         {
-            using (SqlConnection con = conexion.Instancia.Conectar())
+            using (SqlConnection con = Conexion.Instancia.Conectar())
             {
                 SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Habitaciones WHERE Numero = @Numero", con);
                 cmd.Parameters.AddWithValue("@Numero", numero);
@@ -182,7 +182,7 @@ namespace CapaDatos
 
         public bool CambiarEstado(string numeroHabitacion, string nuevoEstado)
         {
-            using (SqlConnection con = conexion.Instancia.Conectar())
+            using (SqlConnection con = Conexion.Instancia.Conectar())
             {
                 SqlCommand cmd = new SqlCommand("UPDATE Habitaciones SET Estado = @Estado WHERE Numero = @Numero", con);
                 cmd.Parameters.AddWithValue("@Estado", nuevoEstado);
@@ -193,5 +193,19 @@ namespace CapaDatos
             }
         }
 
+        public decimal ObtenerPrecioPorNumero(string numeroHabitacion)
+        {
+            decimal precio = 0;
+            using (SqlConnection cn = Conexion.Instancia.Conectar())
+            {
+                SqlCommand cmd = new SqlCommand("SELECT Precio FROM Habitaciones WHERE Numero = @Numero", cn);
+                cmd.Parameters.AddWithValue("@Numero", numeroHabitacion);
+                cn.Open();
+                var resultado = cmd.ExecuteScalar();
+                if (resultado != null)
+                    precio = Convert.ToDecimal(resultado);
+            }
+            return precio;
+        }
     }
 }

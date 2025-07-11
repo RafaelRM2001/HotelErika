@@ -34,5 +34,11 @@ namespace CapaLogica
 
             return datUsuario.Instancia.ObtenerRolIdPorNombre(nombreRol.Trim());
         }
+
+        // Obtener el Id por Usuario
+        public entUsuario ObtenerUsuarioPorId(int id)
+        {
+            return datUsuario.Instancia.ObtenerUsuarioPorId(id);
+        }
     }
 }

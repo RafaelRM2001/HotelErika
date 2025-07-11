@@ -30,6 +30,10 @@ namespace CapaEntidad
         [Range(1, 2, ErrorMessage = "Debe seleccionar un rol válido.")]
         public int RolId { get; set; } = 1;  // RolId = 1 por defecto (Usuario)
 
+        [Required(ErrorMessage = "El DNI o RUC es obligatorio.")]
+        [StringLength(11, ErrorMessage = "Debe tener máximo 11 dígitos.")]
+        public string DNI_RUC { get; set; } = string.Empty;
+
         public string? RolNombre { get; set; }
 
         public DateTime FechaRegistro { get; set; }
