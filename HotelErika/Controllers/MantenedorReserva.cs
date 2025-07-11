@@ -6,7 +6,7 @@ using System;
 
 namespace HotelErika.Controllers
 {
-    public class ReservaController : Controller
+    public class MantenedorReserva : Controller
     {
         public IActionResult Index()
         {
