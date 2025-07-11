@@ -4,77 +4,107 @@
     ViewData["Title"] = "Registrar Habitación";
 }
 
+<!-- ESTILO PARA EL FONDO Y LA TARJETA -->
+<style>
+    body {
+        background-image: url('https://images.unsplash.com/photo-1582719478174-52f57c1aab2a?auto=format&fit=crop&w=1350&q=80');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .card {
+        background-color: rgba(255, 255, 255, 0.95);
+    }
+
+    label {
+        font-weight: 600;
+    }
+
+    h3 {
+        font-weight: bold;
+    }
+</style>
+
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card shadow-sm rounded">
-                <div class="card-header bg-primary text-white text-center">
-                    <h4 class="fw-bold mb-0">Nueva Habitación</h4>
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-header bg-primary text-white text-center rounded-top-4">
+                    <h3 class="mb-0">Registrar Nueva Habitación</h3>
                 </div>
 
-                <div class="card-body">
+                <div class="card-body px-4 py-4">
                     @* Mensaje de advertencia o error *@
                     @if (ViewBag.Mensaje != null)
                     {
-                        <div class="alert alert-warning text-center">@ViewBag.Mensaje</div>
+                        <div class="alert alert-warning text-center shadow-sm">
+                            @ViewBag.Mensaje
+                        </div>
                     }
 
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                    <form asp-action="Crear" method="post">
+                    <form asp-action="Crear" method="post" class="needs-validation" novalidate>
                         @Html.AntiForgeryToken()
 
-                        <div class="mb-3">
-                            <label asp-for="Numero" class="form-label fw-bold">Número de Habitación</label>
-                            <input asp-for="Numero" class="form-control" />
-                            <span asp-validation-for="Numero" class="text-danger"></span>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Numero" class="form-label">Número de Habitación</label>
+                                <input asp-for="Numero" class="form-control shadow-sm" placeholder="Ej: 101" />
+                                <span asp-validation-for="Numero" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Piso" class="form-label">Piso</label>
+                                <input asp-for="Piso" type="number" min="1" class="form-control shadow-sm" placeholder="Ej: 1" />
+                                <span asp-validation-for="Piso" class="text-danger small"></span>
+                            </div>
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="Piso" class="form-label fw-bold">Número de Piso</label>
-                            <input asp-for="Piso" type="number" min="1" class="form-control" />
-                            <span asp-validation-for="Piso" class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="Tipo" class="form-label fw-bold">Tipo</label>
-                            <select asp-for="Tipo" class="form-select">
+                            <label asp-for="Tipo" class="form-label">Tipo de Habitación</label>
+                            <select asp-for="Tipo" class="form-select shadow-sm">
                                 <option value="">-- Seleccionar Tipo --</option>
                                 <option value="Simple">Simple</option>
                                 <option value="Doble">Doble</option>
                                 <option value="Suite">Suite</option>
                             </select>
-                            <span asp-validation-for="Tipo" class="text-danger"></span>
+                            <span asp-validation-for="Tipo" class="text-danger small"></span>
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="Precio" class="form-label fw-bold">Precio (S/)</label>
-                            <input asp-for="Precio" type="number" step="0.01" min="1" class="form-control" />
-                            <span asp-validation-for="Precio" class="text-danger"></span>
+                            <label asp-for="Precio" class="form-label">Precio (S/)</label>
+                            <input asp-for="Precio" type="number" step="0.01" min="1" class="form-control shadow-sm" placeholder="Ej: 150.00" />
+                            <span asp-validation-for="Precio" class="text-danger small"></span>
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="Estado" class="form-label fw-bold">Estado</label>
-                            <select asp-for="Estado" class="form-select">
+                            <label asp-for="Estado" class="form-label">Estado</label>
+                            <select asp-for="Estado" class="form-select shadow-sm">
                                 <option value="">-- Seleccionar Estado --</option>
                                 <option value="Disponible">Disponible</option>
                                 <option value="Ocupada">Ocupada</option>
                                 <option value="Mantenimiento">Mantenimiento</option>
                             </select>
-                            <span asp-validation-for="Estado" class="text-danger"></span>
+                            <span asp-validation-for="Estado" class="text-danger small"></span>
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="Descripcion" class="form-label fw-bold">Descripción</label>
-                            <textarea asp-for="Descripcion" rows="3" class="form-control"></textarea>
-                            <span asp-validation-for="Descripcion" class="text-danger"></span>
+                            <label asp-for="Descripcion" class="form-label">Descripción</label>
+                            <textarea asp-for="Descripcion" rows="3" class="form-control shadow-sm" placeholder="Ingrese una descripción opcional..."></textarea>
+                            <span asp-validation-for="Descripcion" class="text-danger small"></span>
                         </div>
 
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-success">
-                                <i class="fas fa-save"></i> Guardar
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-success shadow-sm">
+                                <i class="fas fa-save"></i> Guardar Habitación
                             </button>
-                            <a asp-action="Index" class="btn btn-secondary">Volver</a>
+                            <a asp-action="Index" class="btn btn-secondary shadow-sm">
+                                <i class="fas fa-arrow-left"></i> Volver al listado
+                            </a>
                         </div>
                     </form>
                 </div>
@@ -85,4 +115,5 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 }

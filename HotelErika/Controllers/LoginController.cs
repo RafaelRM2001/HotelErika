@@ -7,13 +7,11 @@ using System.Text;
 using System.Security.Cryptography;
 
 namespace HotelErika.Controllers
-{   
+{
     public class LoginController : Controller
     {
-        //esta es la clave--
         private const string CLAVE_AUTORIZACION_ADMIN = "ERIKA2025";
 
-        // 🔒 Método para hashear contraseña con SHA256
         private string HashPassword(string password)
         {
             using (SHA256 sha256 = SHA256.Create())
@@ -37,20 +35,17 @@ namespace HotelErika.Controllers
                 return View();
             }
 
-            // 🔒 Encriptar antes de comparar
             string passwordHash = HashPassword(password.Trim());
-
-            Console.WriteLine($"Email: {email}");
-            Console.WriteLine($"Password ingresado: {password}");
-            Console.WriteLine($"Hash generado: {passwordHash}");
 
             var usuario = logUsuario.Instancia.LoginUsuario(email.Trim(), passwordHash);
 
             if (usuario != null && usuario.Activo)
             {
-                HttpContext.Session.SetString("UsuarioNombre", usuario.Nombre);
-                HttpContext.Session.SetInt32("RolId", usuario.RolId);
+                // 👇 Guardamos UsuarioId correctamente como entero
                 HttpContext.Session.SetInt32("UsuarioId", usuario.Id);
+                HttpContext.Session.SetInt32("RolId", usuario.RolId);
+                HttpContext.Session.SetString("UsuarioNombre", usuario.Nombre);
+
                 return RedirectToAction("Index", "Home");
             }
 
@@ -92,7 +87,6 @@ namespace HotelErika.Controllers
                     return View(usuario);
                 }
 
-                // 🔒 Hashear la contraseña antes de guardar
                 usuario.Password = HashPassword(usuario.Password);
                 usuario.FechaRegistro = DateTime.Now;
                 usuario.Activo = true;

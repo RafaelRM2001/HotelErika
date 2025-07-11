@@ -179,5 +179,19 @@ namespace CapaDatos
                 return cantidad > 0;
             }
         }
+
+        public bool CambiarEstado(string numeroHabitacion, string nuevoEstado)
+        {
+            using (SqlConnection con = conexion.Instancia.Conectar())
+            {
+                SqlCommand cmd = new SqlCommand("UPDATE Habitaciones SET Estado = @Estado WHERE Numero = @Numero", con);
+                cmd.Parameters.AddWithValue("@Estado", nuevoEstado);
+                cmd.Parameters.AddWithValue("@Numero", numeroHabitacion);
+
+                con.Open();
+                return cmd.ExecuteNonQuery() > 0;
+            }
+        }
+
     }
 }

@@ -1,37 +1,75 @@
-﻿using CapaDatos;
-using CapaEntidad;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CapaEntidad;
+using CapaDatos;
 
 namespace CapaLogica
 {
     public class logReserva
     {
+        #region Singleton
         private static readonly logReserva _instancia = new logReserva();
         public static logReserva Instancia => _instancia;
+        #endregion
 
-        public List<entReserva> ListarReservas()
+        #region Métodos Auxiliares
+
+        /// <summary>
+        /// Busca un cliente activo por su DNI o RUC.
+        /// </summary>
+        public entReserva BuscarClientePorDNI(string dni)
         {
-            return datReserva.Instancia.Listar();
+            return datReserva.Instancia.BuscarClientePorDNI(dni);
+        }
+
+        public List<string> ListarTiposHabitacion()
+        {
+            return datReserva.Instancia.ListarTiposHabitacion();
+        }
+
+        public List<entReserva> ListarHabitacionesPorTipo(string tipo)
+        {
+            return datReserva.Instancia.ListarHabitacionesPorTipo(tipo);
+        }
+
+        public decimal ObtenerPrecioHabitacion(string numero)
+        {
+            return datReserva.Instancia.ObtenerPrecioHabitacion(numero);
+        }
+
+        #endregion
+
+        #region CRUD Reserva
+
+        public List<entReserva> ListarReserva()
+        {
+            return datReserva.Instancia.ListarReserva();
         }
 
         public bool InsertarReserva(entReserva r)
         {
-            r.FechaRegistro = DateTime.Now;
-            return datReserva.Instancia.Insertar(r);
-        }
-
-        public bool AplazarReserva(int id, DateTime nuevaIngreso, DateTime nuevaSalida)
-        {
-            return datReserva.Instancia.AplazarReserva(id, nuevaIngreso, nuevaSalida);
+            return datReserva.Instancia.InsertarReserva(r);
         }
 
         public entReserva ObtenerReservaPorId(int id)
         {
-            return datReserva.Instancia.ObtenerPorId(id);
+            return datReserva.Instancia.ObtenerReservaPorId(id);
         }
+
+        public bool CancelarReserva(int id)
+        {
+            return datReserva.Instancia.CancelarReserva(id);
+        }
+
+        public List<entReserva> ObtenerReservasPorUsuario(int usuarioId)
+        {
+            return datReserva.Instancia.ObtenerReservasPorUsuario(usuarioId);
+        }
+        public bool ReprogramarReserva(int id, string numeroHabitacion, DateTime fechaEntrada, DateTime fechaSalida)
+        {
+            return datReserva.Instancia.ReprogramarReserva(id, numeroHabitacion, fechaEntrada, fechaSalida);
+        }
+
+        #endregion
     }
 }

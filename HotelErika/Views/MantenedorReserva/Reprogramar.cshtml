@@ -1,0 +1,125 @@
+﻿@model CapaEntidad.entReserva
+
+@{
+    ViewData["Title"] = "Reprogramar Reserva";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    body {
+        background: url('https://imgs.search.brave.com/EJx732Y8Zs08dcjB1pdyFsgQKtUSn8TqDxz1EfFZa6c/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zN2cx/MC5zY2VuZTcuY29t/L2lzL2ltYWdlL2Jh/cmNlbG8vNS5wbGF5/YXM_Jg') no-repeat center center fixed;
+        background-size: cover;
+        font-family: 'Segoe UI', sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .form-container {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 16px;
+        padding: 40px;
+        max-width: 600px;
+        margin: 80px auto;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    h2 {
+        text-align: center;
+        color: #2c3e50;
+        font-weight: bold;
+        margin-bottom: 30px;
+    }
+
+    label {
+        font-weight: 600;
+        margin-bottom: 6px;
+        color: #34495e;
+    }
+
+    .form-control {
+        border-radius: 10px;
+        padding: 12px;
+        font-size: 1.05rem;
+        border: 1px solid #ccc;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        width: 100%;
+    }
+
+    .btn {
+        border-radius: 10px;
+        padding: 12px 24px;
+        font-size: 1.05rem;
+        margin: 10px 5px 0 0;
+    }
+
+    .btn-primary {
+        background-color: #198754;
+        border: none;
+        color: white;
+    }
+
+        .btn-primary:hover {
+            background-color: #157347;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border: none;
+        color: white;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+    .alert {
+        text-align: center;
+        font-weight: bold;
+        max-width: 600px;
+        margin: 20px auto;
+        border-radius: 10px;
+    }
+
+</style>
+
+<div class="form-container">
+    <h2>Reprogramar Reserva</h2>
+
+    @if (TempData["error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["error"]</div>
+    }
+
+    @if (TempData["mensaje"] != null)
+    {
+        <div class="alert alert-success">@TempData["mensaje"]</div>
+    }
+
+    <form asp-action="Reprogramar" method="post">
+        <input type="hidden" name="id" value="@Model.Id" />
+
+        <div class="form-group mb-3">
+            <label>Número de Habitación</label>
+            <input type="text" name="numeroHabitacion" value="@Model.NumeroHabitacion" class="form-control" required />
+        </div>
+
+        <div class="form-group mb-3">
+            <label>Fecha de Entrada</label>
+            <input type="date" name="fechaEntrada" value="@Model.FechaEntrada.ToString("yyyy-MM-dd")" class="form-control" required />
+        </div>
+
+        <div class="form-group mb-3">
+            <label>Fecha de Salida</label>
+            <input type="date" name="fechaSalida" value="@Model.FechaSalida.ToString("yyyy-MM-dd")" class="form-control" required />
+        </div>
+
+        <div class="d-flex justify-content-end mt-4">
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar Cambios</button>
+            <a asp-action="Index" class="btn btn-secondary"><i class="fas fa-times"></i> Cancelar</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+}

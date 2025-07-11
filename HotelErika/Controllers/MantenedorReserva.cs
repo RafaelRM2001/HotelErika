@@ -1,92 +1,178 @@
-﻿using CapaEntidad;
+﻿using Microsoft.AspNetCore.Mvc;
+using CapaEntidad;
 using CapaLogica;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-
+using Microsoft.AspNetCore.Http;
+using System;
 
 namespace HotelErika.Controllers
 {
-    public class MantenedorReserva : Controller
+    public class ReservaController : Controller
     {
-        private bool UsuarioLogueado()
+        public IActionResult Index()
         {
-            return HttpContext.Session.GetString("UsuarioNombre") != null;
-        }
+            int? usuarioId = HttpContext.Session.GetInt32("UsuarioId");
+            int? rolId = HttpContext.Session.GetInt32("RolId"); // ← Obtiene el RolId desde la sesión
 
-        // Listar todas las reservas
-        public IActionResult Listar()
-        {
-            if (!UsuarioLogueado())
+            if (usuarioId == null || rolId == null)
+            {
+                // Usuario no autenticado o sesión expirada
                 return RedirectToAction("Login", "Login");
+            }
 
-            var reservas = logReserva.Instancia.ListarReservas();
-            return View(reservas);
+            List<entReserva> lista;
+
+            if (rolId == 2) // ← Administrador
+            {
+                lista = logReserva.Instancia.ListarReserva(); // ← Muestra todas las reservas
+            }
+            else
+            {
+                lista = logReserva.Instancia.ObtenerReservasPorUsuario(usuarioId.Value); // ← Solo las del usuario
+            }
+
+            return View(lista);
         }
 
-        // Mostrar formulario de creación
+
+
+        [HttpGet]
         public IActionResult Crear()
         {
-            if (!UsuarioLogueado())
-                return RedirectToAction("Login", "Login");
-
-            ViewBag.Clientes = new SelectList(logCliente.Instancia.ListarCliente(), "Id", "Nombre");
-            ViewBag.Habitaciones = new SelectList(
-                logHabitacion.Instancia.ListarHabitaciones().Where(h => h.Estado == "Disponible"),
-                "Id", "Numero"
-            );
-            return View();
+            ViewBag.TiposHabitacion = logReserva.Instancia.ListarTiposHabitacion();
+            return View(new entReserva());
         }
 
-        // Guardar reserva
         [HttpPost]
-        public IActionResult Crear(entReserva reserva)
+        public IActionResult Crear(entReserva r)
         {
-            if (!UsuarioLogueado())
-                return RedirectToAction("Login", "Login");
+            if (!ModelState.IsValid)
+            {
+                ViewBag.TiposHabitacion = logReserva.Instancia.ListarTiposHabitacion();
+                return View(r);
+            }
 
-            int? rolId = HttpContext.Session.GetInt32("RolId");
             int? usuarioId = HttpContext.Session.GetInt32("UsuarioId");
 
-            if (rolId == null || usuarioId == null)
-                return RedirectToAction("Login", "Login");
-
-            var habitaciones = logHabitacion.Instancia.ListarHabitacionesDisponibles();
-            ViewBag.Habitaciones = new SelectList(habitaciones, "Id", "DescripcionExtendida");
-
-            if (rolId == 2) // Admin
+            if (!usuarioId.HasValue)
             {
-                var clientes = logCliente.Instancia.ListarCliente();
-                ViewBag.Clientes = new SelectList(clientes, "Id", "NombreCompleto");
-            }
-            else // Cliente normal
-            {
-                var cliente = logCliente.Instancia.ObtenerClientePorId(usuarioId.Value); // Asumiendo que implementas esto
-                ViewBag.ClienteId = cliente.Id;
+                ViewBag.Mensaje = "Error: Sesión expirada o usuario no autenticado.";
+                ViewBag.TiposHabitacion = logReserva.Instancia.ListarTiposHabitacion();
+                return View(r);
             }
 
-            ViewBag.RolId = rolId;
-            return View();
+            // ✅ Validar que la fecha de entrada no sea en el pasado
+            DateTime hoy = DateTime.Today;
+            if (r.FechaEntrada.Date < hoy)
+            {
+                ModelState.AddModelError("FechaEntrada", "La fecha de entrada no puede ser anterior a hoy.");
+                ViewBag.TiposHabitacion = logReserva.Instancia.ListarTiposHabitacion();
+                return View(r);
+            }
+
+            r.UsuarioId = usuarioId.Value;
+            r.FechaRegistro = DateTime.Now;
+            r.Activo = true;
+
+            bool exito = logReserva.Instancia.InsertarReserva(r);
+            if (exito)
+            {
+                logHabitacion.Instancia.CambiarEstadoHabitacion(r.NumeroHabitacion, "Ocupado");
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.Mensaje = "Ocurrió un error al guardar la reserva.";
+            ViewBag.TiposHabitacion = logReserva.Instancia.ListarTiposHabitacion();
+            return View(r);
         }
 
-        // Aplazar reserva (formulario)
-        public IActionResult Aplazar(int id)
-        {
-            if (!UsuarioLogueado())
-                return RedirectToAction("Login", "Login");
 
-            var reserva = logReserva.Instancia.ObtenerReservaPorId(id);
+
+        [HttpGet]
+        public JsonResult BuscarClientePorDNI(string dni)
+        {
+            var cliente = logReserva.Instancia.BuscarClientePorDNI(dni);
+            if (cliente != null)
+            {
+                return Json(new { nombre = cliente.Nombre, apellido = cliente.Apellido });
+            }
+            return Json(null);
+        }
+
+        [HttpGet]
+        public JsonResult ObtenerHabitaciones(string tipo)
+        {
+            var lista = logReserva.Instancia.ListarHabitacionesPorTipo(tipo);
+            return Json(lista);
+        }
+
+        [HttpGet]
+        public JsonResult ObtenerPrecio(string numero)
+        {
+            decimal precio = logReserva.Instancia.ObtenerPrecioHabitacion(numero);
+            return Json(precio);
+        }
+
+
+        [HttpPost]
+        public IActionResult Cancelar(int id)
+        {
+            bool resultado = logReserva.Instancia.CancelarReserva(id);
+
+            if (resultado)
+            {
+                TempData["Mensaje"] = "Reserva cancelada correctamente.";
+            }
+            else
+            {
+                TempData["Error"] = "";
+            }
+
+            return RedirectToAction("Index"); // O el nombre de tu acción de listado
+        }
+
+        [HttpGet]
+        public IActionResult Reprogramar(int id)
+        {
+            var reserva = logReserva.Instancia.ObtenerReservaPorId(id); // Debe existir este método
+            if (reserva == null)
+            {
+                return RedirectToAction("Index");
+            }
+
             return View(reserva);
         }
 
-        // Aplazar reserva (guardar)
         [HttpPost]
-        public IActionResult Aplazar(int id, DateTime nuevaFechaIngreso, DateTime nuevaFechaSalida)
+        public IActionResult Reprogramar(int id, string numeroHabitacion, DateTime fechaEntrada, DateTime fechaSalida)
         {
-            if (!UsuarioLogueado())
-                return RedirectToAction("Login", "Login");
+            try
+            {
+                // ✅ Validación: fecha de entrada no puede ser anterior a hoy
+                if (fechaEntrada.Date < DateTime.Today)
+                {
+                    TempData["error"] = "La fecha de entrada no puede ser anterior a hoy.";
+                    return RedirectToAction("Reprogramar", new { id = id });
+                }
 
-            logReserva.Instancia.AplazarReserva(id, nuevaFechaIngreso, nuevaFechaSalida);
-            return RedirectToAction("Listar");
+                bool actualizado = logReserva.Instancia.ReprogramarReserva(id, numeroHabitacion, fechaEntrada, fechaSalida);
+                if (actualizado)
+                {
+                    TempData["mensaje"] = "Reserva reprogramada correctamente.";
+                }
+                else
+                {
+                    TempData["error"] = "No se pudo reprogramar la reserva. Verifique si está activa.";
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "Error: " + ex.Message;
+            }
+
+            return RedirectToAction("Index");
         }
+
+
+
     }
 }

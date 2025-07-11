@@ -4,9 +4,42 @@
     ViewData["Title"] = "Gestión de Habitaciones";
 }
 
-<div class="container mt-5">
+<!-- ESTILOS PARA FONDO Y ESTÉTICA -->
+<style>
+    body {
+        background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1350&q=80');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .fondo-blanco-transparente {
+        background-color: rgba(255, 255, 255, 0.95);
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    }
+
+    h2 {
+        font-weight: bold;
+        color: #2c3e50;
+    }
+
+    .table th,
+    .table td {
+        vertical-align: middle;
+    }
+
+    .btn i {
+        pointer-events: none;
+    }
+</style>
+
+<div class="container mt-5 fondo-blanco-transparente">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold text-primary">Habitaciones Registradas</h2>
+        <h2>Habitaciones Registradas</h2>
         <a class="btn btn-success" asp-action="Crear">
             <i class="fas fa-bed"></i> Nueva Habitación
         </a>
@@ -69,9 +102,7 @@
                                 }
                             </td>
                             <td>@h.FechaRegistro.ToString("yyyy-MM-dd")</td>
-                            <td>
-                                @(h.FechaActualizacion?.ToString("yyyy-MM-dd") ?? "-")
-                            </td>
+                            <td>@(h.FechaActualizacion?.ToString("yyyy-MM-dd") ?? "-")</td>
                             <td>
                                 <div class="d-flex justify-content-center gap-2">
                                     <a class="btn btn-outline-info btn-sm" asp-action="Detalle" asp-route-id="@h.Id" title="Ver">

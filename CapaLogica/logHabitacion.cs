@@ -10,24 +10,22 @@ namespace CapaLogica
         private static readonly logHabitacion _instancia = new logHabitacion();
         public static logHabitacion Instancia => _instancia;
 
-        /// <summary>
+
         /// Listar todas las habitaciones activas.
-        /// </summary>
         public List<entHabitacion> ListarHabitaciones()
         {
             return datHabitacion.Instancia.Listar();
         }
 
-        /// <summary>
+
         /// Obtener una habitación por su ID.
-        /// </summary>
+
         public entHabitacion ObtenerHabitacionPorId(int id)
         {
             return datHabitacion.Instancia.Buscar(id); // Usa el método correcto de datHabitacion
         }
 
-        /// <summary>
-        /// Insertar una nueva habitación.
+
         /// </summary>
         public bool InsertarHabitacion(entHabitacion habitacion)
         {
@@ -36,8 +34,7 @@ namespace CapaLogica
             return datHabitacion.Instancia.Insertar(habitacion);
         }
 
-        /// <summary>
-        /// Editar una habitación existente.
+
         /// </summary>
         public bool EditarHabitacion(entHabitacion habitacion)
         {
@@ -60,6 +57,11 @@ namespace CapaLogica
         public bool EliminarHabitacion(int id)
         {
             return datHabitacion.Instancia.Eliminar(id);
+        }
+
+        public bool CambiarEstadoHabitacion(string numeroHabitacion, string nuevoEstado)
+        {
+            return datHabitacion.Instancia.CambiarEstado(numeroHabitacion, nuevoEstado);
         }
 
     }

@@ -4,12 +4,40 @@
     ViewData["Title"] = "Eliminar Cliente";
 }
 
+<!-- ESTILOS CON FONDO DE PLAYA -->
+<style>
+    body {
+        background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1350&q=80');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .card, .alert, form {
+        background-color: rgba(255, 255, 255, 0.95);
+        border-radius: 12px;
+    }
+
+    .alert-heading {
+        font-weight: bold;
+    }
+
+    dt {
+        font-weight: 600;
+    }
+</style>
+
 <div class="container mt-5">
     <div class="alert alert-danger d-flex align-items-center shadow-sm" role="alert">
         <i class="fas fa-exclamation-triangle fa-2x me-3"></i>
         <div>
             <h4 class="alert-heading">¿Estás seguro que deseas eliminar este cliente?</h4>
-            <p>Esta acción no se puede deshacer. Confirma si realmente deseas eliminar al cliente <strong>@Model.Nombre @Model.Apellido</strong>.</p>
+            <p>
+                Esta acción no se puede deshacer. Confirma si realmente deseas eliminar al cliente
+                <strong>@Model.Nombre @Model.Apellido</strong>.
+            </p>
         </div>
     </div>
 

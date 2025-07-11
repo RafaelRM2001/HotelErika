@@ -4,40 +4,64 @@
     ViewData["Title"] = "Detalles de Habitación";
 }
 
+<!-- ESTILO PARA EL FONDO Y TARJETA -->
+<style>
+    body {
+        background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1350&q=80');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .card {
+        background-color: rgba(255, 255, 255, 0.95);
+    }
+
+    h4 {
+        font-weight: bold;
+    }
+
+    dt {
+        font-weight: 600;
+    }
+</style>
+
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card shadow-sm rounded">
                 <div class="card-header bg-info text-white text-center">
-                    <h4 class="fw-bold mb-0">Detalles de Habitación</h4>
+                    <h4 class="mb-0">Detalles de Habitación</h4>
                 </div>
 
                 <div class="card-body">
                     <dl class="row">
-                        <dt class="col-sm-4 fw-bold">Número:</dt>
+                        <dt class="col-sm-4">Número:</dt>
                         <dd class="col-sm-8">@Model.Numero</dd>
 
-                        <dt class="col-sm-4 fw-bold">Piso:</dt>
+                        <dt class="col-sm-4">Piso:</dt>
                         <dd class="col-sm-8">@Model.Piso</dd>
 
-                        <dt class="col-sm-4 fw-bold">Tipo:</dt>
+                        <dt class="col-sm-4">Tipo:</dt>
                         <dd class="col-sm-8">@Model.Tipo</dd>
 
-                        <dt class="col-sm-4 fw-bold">Precio (S/):</dt>
+                        <dt class="col-sm-4">Precio (S/):</dt>
                         <dd class="col-sm-8">@Model.Precio.ToString("F2")</dd>
 
-                        <dt class="col-sm-4 fw-bold">Estado:</dt>
+                        <dt class="col-sm-4">Estado:</dt>
                         <dd class="col-sm-8">@Model.Estado</dd>
 
-                        <dt class="col-sm-4 fw-bold">Descripción:</dt>
+                        <dt class="col-sm-4">Descripción:</dt>
                         <dd class="col-sm-8">@Model.Descripcion</dd>
 
-                        <dt class="col-sm-4 fw-bold">Fecha de Registro:</dt>
+                        <dt class="col-sm-4">Fecha de Registro:</dt>
                         <dd class="col-sm-8">@Model.FechaRegistro.ToString("dd/MM/yyyy HH:mm")</dd>
 
                         @if (Model.FechaActualizacion != null)
                         {
-                            <dt class="col-sm-4 fw-bold">Última Actualización:</dt>
+                            <dt class="col-sm-4">Última Actualización:</dt>
                             <dd class="col-sm-8">@Model.FechaActualizacion?.ToString("dd/MM/yyyy HH:mm")</dd>
                         }
                     </dl>

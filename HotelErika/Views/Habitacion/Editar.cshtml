@@ -4,12 +4,36 @@
     ViewData["Title"] = "Editar Habitación";
 }
 
+<!-- ESTILO PARA EL FONDO Y TARJETA -->
+<style>
+    body {
+        background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1350&q=80');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .card {
+        background-color: rgba(255, 255, 255, 0.97);
+    }
+
+    h4 {
+        font-weight: bold;
+    }
+
+    label {
+        font-weight: 600;
+    }
+</style>
+
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card shadow-sm rounded">
                 <div class="card-header bg-warning text-dark text-center">
-                    <h4 class="fw-bold mb-0">Editar Habitación</h4>
+                    <h4 class="mb-0">Editar Habitación</h4>
                 </div>
 
                 <div class="card-body">
@@ -17,7 +41,6 @@
 
                     <form asp-action="Editar" method="post">
                         @Html.AntiForgeryToken()
-
                         @Html.HiddenFor(m => m.Id)
 
                         <div class="mb-3">

@@ -1,0 +1,123 @@
+﻿@model List<CapaEntidad.entReserva>
+@{
+    ViewData["Title"] = "Listado de Reservas";
+}
+
+<!-- Fondo de playa con overlay -->
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1740&q=80');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+
+    .overlay {
+        background-color: rgba(0, 0, 0, 0.5); /* Oscurece la imagen */
+        min-height: 100vh;
+        padding: 60px 20px;
+    }
+
+    .content-box {
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .btn-custom {
+        border-radius: 20px;
+        transition: all 0.3s ease;
+    }
+
+        .btn-custom:hover {
+            transform: scale(1.05);
+        }
+
+
+    h2 {
+        font-weight: 600;
+        color: #003366;
+    }
+</style>
+
+<div class="overlay">
+    <div class="container content-box">
+        <h2 class="mb-4 text-center"><i class="fas fa-calendar-alt me-2"></i>Reservas Registradas</h2>
+
+        <div class="text-end mb-3">
+            <a class="btn btn-success btn-custom" asp-action="Crear">
+                <i class="fas fa-calendar-plus"></i> Nueva Reserva
+            </a>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle shadow-sm bg-white">
+                <thead class="table-primary text-center">
+                    <tr>
+                        <th>ID</th>
+                        <th>DNI</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Tipo Hab.</th>
+                        <th>Número</th>
+                        <th>Precio</th>
+                        <th>Entrada</th>
+                        <th>Salida</th>
+                        <th>Registro</th>
+                        <th>Activo</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var r in Model)
+                    {
+                        <tr class="text-center">
+                            <td>@r.Id</td>
+                            <td>@r.DNI_RUC</td>
+                            <td>@r.Nombre</td>
+                            <td>@r.Apellido</td>
+                            <td>@r.TipoHabitacion</td>
+                            <td>@r.NumeroHabitacion</td>
+                            <td>@r.Precio.ToString("C")</td>
+                            <td>@r.FechaEntrada.ToString("yyyy-MM-dd")</td>
+                            <td>@r.FechaSalida.ToString("yyyy-MM-dd")</td>
+                            <td>@r.FechaRegistro.ToString("yyyy-MM-dd")</td>
+                            <td>
+                                @if (r.Activo)
+                                {
+                                    <span class="badge bg-success">Sí</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">No</span>
+                                }
+                            </td>
+                            <td>
+                                <div class="d-flex justify-content-center gap-2">
+                                    <a class="btn btn-outline-warning btn-sm btn-custom" asp-action="Reprogramar" asp-route-id="@r.Id">
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </a>
+
+                                    <form asp-action="Cancelar" asp-route-id="@r.Id" method="post" onsubmit="return confirm('¿Deseas cancelar esta reserva?');">
+                                        <button type="submit" class="btn btn-outline-danger btn-sm btn-custom">
+                                            <i class="fas fa-ban"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+}

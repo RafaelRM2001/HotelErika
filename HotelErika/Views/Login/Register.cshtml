@@ -3,93 +3,146 @@
     ViewData["Title"] = "Registro de Usuario";
 }
 
-<div class="container mt-5">
+<style>
+    body {
+        background: url('https://images.unsplash.com/photo-1566073771259-6a8506099945') no-repeat center center fixed;
+        background-size: cover;
+    }
+
+    .form-glass {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 1rem;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        padding: 2rem;
+        color: #fff;
+    }
+
+    .form-label {
+        color: #fff;
+    }
+
+    .form-control, .form-select {
+        background-color: rgba(255, 255, 255, 0.8);
+        border: none;
+        border-radius: 0.5rem;
+        padding: 0.6rem;
+        transition: all 0.3s ease-in-out;
+    }
+
+        .form-control:focus, .form-select:focus {
+            box-shadow: 0 0 5px #17a2b8;
+            outline: none;
+        }
+
+    .card-header h3 {
+        font-size: 1.75rem;
+    }
+
+    .btn-success {
+        font-weight: bold;
+        padding: 0.6rem 1rem;
+        border-radius: 0.6rem;
+    }
+
+    .btn-link {
+        color: #fff;
+        text-decoration: underline;
+    }
+
+    .alert {
+        font-weight: bold;
+    }
+</style>
+
+<div class="container mt-5 mb-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card shadow-sm rounded">
-                <div class="card-header bg-dark text-white text-center">
-                    <h3 class="fw-bold mb-0">Registro de Usuario</h3>
+            <div class="form-glass">
+
+                <div class="text-center mb-4">
+                    <h3 class="fw-bold text-white">Registro de Usuario</h3>
                 </div>
 
-                <div class="card-body">
-                    @* Éxito *@
-                    @if (TempData["MensajeExito"] != null)
-                    {
-                        <div class="alert alert-success text-center">@TempData["MensajeExito"]</div>
-                    }
+                @* Éxito *@
+                @if (TempData["MensajeExito"] != null)
+                {
+                    <div class="alert alert-success text-center">@TempData["MensajeExito"]</div>
+                }
 
-                    @* Error *@
-                    @if (ViewBag.Mensaje != null)
-                    {
-                        <div class="alert alert-danger text-center">@ViewBag.Mensaje</div>
-                    }
+                @* Error *@
+                @if (ViewBag.Mensaje != null)
+                {
+                    <div class="alert alert-danger text-center">@ViewBag.Mensaje</div>
+                }
 
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                    <form asp-action="Register" method="post">
-                        @Html.AntiForgeryToken()
+                <form asp-action="Register" method="post">
+                    @Html.AntiForgeryToken()
 
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="Nombre" class="form-label fw-bold">Nombre</label>
-                                <input asp-for="Nombre" class="form-control" />
-                                <span asp-validation-for="Nombre" class="text-danger"></span>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="Apellido" class="form-label fw-bold">Apellido</label>
-                                <input asp-for="Apellido" class="form-control" />
-                                <span asp-validation-for="Apellido" class="text-danger"></span>
-                            </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Nombre" class="form-label fw-bold">Nombre</label>
+                            <input asp-for="Nombre" class="form-control" />
+                            <span asp-validation-for="Nombre" class="text-danger"></span>
                         </div>
-
-                        <div class="mb-3">
-                            <label asp-for="Email" class="form-label fw-bold">Correo Electrónico</label>
-                            <input asp-for="Email" type="email" class="form-control" />
-                            <span asp-validation-for="Email" class="text-danger"></span>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Apellido" class="form-label fw-bold">Apellido</label>
+                            <input asp-for="Apellido" class="form-control" />
+                            <span asp-validation-for="Apellido" class="text-danger"></span>
                         </div>
+                    </div>
 
-                        <div class="mb-3">
-                            <label asp-for="Password" class="form-label fw-bold">Contraseña</label>
-                            <div class="input-group">
-                                <input asp-for="Password" type="password" class="form-control" id="passwordInput" />
-                                <button class="btn btn-outline-secondary" type="button" id="togglePassword">
-                                    <i class="fas fa-eye" id="iconPassword"></i>
-                                </button>
-                            </div>
-                            <span asp-validation-for="Password" class="text-danger"></span>
-                        </div>
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label fw-bold">Correo Electrónico</label>
+                        <input asp-for="Email" type="email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
 
-                        <div class="mb-3">
-                            <label asp-for="RolId" class="form-label fw-bold">Rol</label>
-                            <select asp-for="RolId" class="form-select" onchange="mostrarClave(this)">
-                                <option value="0">-- Seleccionar Rol --</option>
-                                <option value="1">Usuario</option>
-                                <option value="2">Administrador</option>
-                            </select>
-                            <span asp-validation-for="RolId" class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3" id="claveAdminDiv" style="display: none;">
-                            <label class="form-label fw-bold">Clave de Autorización</label>
-                            <div class="input-group">
-                                <input name="claveAdmin" id="claveAdmin" type="password" class="form-control" autocomplete="off" disabled />
-                                <button class="btn btn-outline-secondary" type="button" id="toggleClaveAdmin" tabindex="-1" disabled>
-                                    <i class="fas fa-eye" id="iconClaveAdmin"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="d-grid gap-2 mt-4">
-                            <button type="submit" class="btn btn-success">
-                                <i class="fas fa-user-plus"></i> Registrarse
+                    <div class="mb-3">
+                        <label asp-for="Password" class="form-label fw-bold">Contraseña</label>
+                        <div class="input-group">
+                            <input asp-for="Password" type="password" class="form-control" id="passwordInput" />
+                            <button class="btn btn-outline-light" type="button" id="togglePassword">
+                                <i class="fas fa-eye" id="iconPassword"></i>
                             </button>
                         </div>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
 
-                        <div class="text-center mt-3">
-                            <a asp-action="Login" class="btn btn-link">¿Ya tienes cuenta? Inicia sesión aquí</a>
+                    <div class="mb-3">
+                        <label asp-for="RolId" class="form-label fw-bold">Rol</label>
+                        <select asp-for="RolId" class="form-select" onchange="mostrarClave(this)">
+                            <option value="0">-- Seleccionar Rol --</option>
+                            <option value="1">Usuario</option>
+                            <option value="2">Administrador</option>
+                        </select>
+                        <span asp-validation-for="RolId" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3" id="claveAdminDiv" style="display: none;">
+                        <label class="form-label fw-bold">Clave de Autorización</label>
+                        <div class="input-group">
+                            <input name="claveAdmin" id="claveAdmin" type="password" class="form-control" autocomplete="off" disabled />
+                            <button class="btn btn-outline-light" type="button" id="toggleClaveAdmin" tabindex="-1" disabled>
+                                <i class="fas fa-eye" id="iconClaveAdmin"></i>
+                            </button>
                         </div>
-                    </form>
-                </div>
+                    </div>
+
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-user-plus"></i> Registrarse
+                        </button>
+                    </div>
+
+                    <div class="text-center mt-3">
+                        <a asp-action="Login" class="btn btn-link">¿Ya tienes cuenta? Inicia sesión aquí</a>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

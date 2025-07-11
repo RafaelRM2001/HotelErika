@@ -4,10 +4,39 @@
     ViewData["Title"] = "Registrar Cliente";
 }
 
+<!-- ESTILOS -->
+<style>
+    body {
+        background-image: url('https://imgs.search.brave.com/9ZnLDGh_UABELkO2_EKTifdhwzJL4J7qD8VP8JdDBE0/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/Zm90by1ncmF0aXMv/c29tYnJpbGxhLXBs/YXlhLXNpbGxhcy1w/bGF5YS1yb2phcy1v/cmlsbGFfMTgxNjI0/LTIxMTE5LmpwZz9z/ZW10PWFpc19pdGVt/c19ib29zdGVkJnc9/NzQw');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    form {
+        background-color: rgba(255, 255, 255, 0.96);
+        border-radius: 12px;
+    }
+
+    h2 {
+        font-weight: bold;
+    }
+
+    label {
+        font-weight: 500;
+    }
+
+    .btn {
+        min-width: 120px;
+    }
+</style>
+
 <div class="container mt-5">
     <h2 class="text-primary mb-4">Registrar Nuevo Cliente</h2>
 
-    <form asp-action="InsertarCliente" method="post" class="shadow p-4 rounded bg-light">
+    <form asp-action="InsertarCliente" method="post" class="shadow p-4">
         <div class="row mb-3">
             <div class="col-md-6">
                 <label asp-for="Nombre" class="form-label">Nombre</label>

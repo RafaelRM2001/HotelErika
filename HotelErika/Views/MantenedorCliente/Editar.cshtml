@@ -4,20 +4,41 @@
     ViewData["Title"] = "Editar Cliente";
 }
 
-<div class="container mt-5">
-    <h2 class="mb-4"><i class="fas fa-user-edit"></i> Editar Cliente</h2>
+<!-- ESTILOS CON FONDO DE PLAYA -->
+<style>
+    body {
+        background-image: url('https://images.unsplash.com/photo-1493558103817-58b2924bce98?auto=format&fit=crop&w=1350&q=80');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        font-family: 'Segoe UI', sans-serif;
+    }
 
-    <form asp-action="Editar" method="post" class="shadow p-4 rounded bg-light">
+    form {
+        background-color: rgba(255, 255, 255, 0.95);
+        border-radius: 12px;
+    }
+
+    label {
+        font-weight: 500;
+    }
+</style>
+
+<div class="container mt-5">
+    <h2 class="mb-4 text-primary"><i class="fas fa-user-edit"></i> Editar Cliente</h2>
+
+    <form asp-action="Editar" method="post" class="shadow p-4 rounded">
         <input type="hidden" asp-for="Id" />
 
         <div class="row mb-3">
             <div class="col-md-6">
-                <label asp-for="Nombre" class="form-label"></label>
+                <label asp-for="Nombre" class="form-label">Nombre</label>
                 <input asp-for="Nombre" class="form-control" />
                 <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
             <div class="col-md-6">
-                <label asp-for="Apellido" class="form-label"></label>
+                <label asp-for="Apellido" class="form-label">Apellido</label>
                 <input asp-for="Apellido" class="form-control" />
                 <span asp-validation-for="Apellido" class="text-danger"></span>
             </div>
@@ -25,12 +46,12 @@
 
         <div class="row mb-3">
             <div class="col-md-6">
-                <label asp-for="Email" class="form-label"></label>
+                <label asp-for="Email" class="form-label">Email</label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="col-md-6">
-                <label asp-for="Telefono" class="form-label"></label>
+                <label asp-for="Telefono" class="form-label">Teléfono</label>
                 <input asp-for="Telefono" class="form-control" />
                 <span asp-validation-for="Telefono" class="text-danger"></span>
             </div>
@@ -38,12 +59,12 @@
 
         <div class="row mb-3">
             <div class="col-md-6">
-                <label asp-for="Direccion" class="form-label"></label>
+                <label asp-for="Direccion" class="form-label">Dirección</label>
                 <input asp-for="Direccion" class="form-control" />
                 <span asp-validation-for="Direccion" class="text-danger"></span>
             </div>
             <div class="col-md-6">
-                <label asp-for="DNI_RUC" class="form-label"></label>
+                <label asp-for="DNI_RUC" class="form-label">DNI / RUC</label>
                 <input asp-for="DNI_RUC" class="form-control" />
                 <span asp-validation-for="DNI_RUC" class="text-danger"></span>
             </div>
@@ -51,12 +72,12 @@
 
         <div class="row mb-3">
             <div class="col-md-6">
-                <label asp-for="FechaNacimiento" class="form-label"></label>
+                <label asp-for="FechaNacimiento" class="form-label">Fecha de Nacimiento</label>
                 <input asp-for="FechaNacimiento" class="form-control" type="date" />
                 <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
             </div>
             <div class="col-md-6">
-                <label asp-for="TipoCliente" class="form-label"></label>
+                <label asp-for="TipoCliente" class="form-label">Tipo de Cliente</label>
                 <input asp-for="TipoCliente" class="form-control" />
                 <span asp-validation-for="TipoCliente" class="text-danger"></span>
             </div>
@@ -64,7 +85,7 @@
 
         <div class="form-check form-switch mb-4">
             <input asp-for="Activo" class="form-check-input" type="checkbox" />
-            <label asp-for="Activo" class="form-check-label"></label>
+            <label asp-for="Activo" class="form-check-label">¿Activo?</label>
         </div>
 
         <div class="d-flex justify-content-end gap-2">

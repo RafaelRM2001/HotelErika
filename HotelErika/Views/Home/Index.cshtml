@@ -1,118 +1,203 @@
 ﻿@{
     ViewData["Title"] = "Inicio - Hotel Erika";
-    var rolId = Context.Session.GetInt32("RolId") ?? 0; // Si no hay sesión, asigna 0 por defecto
+    var rolId = Context.Session.GetInt32("RolId") ?? 0;
 }
 
-<!-- Hero con imagen principal -->
-<div class="hero-banner" style="
-    position: relative;
-    background: url('https://inboundperu.com/wp-content/uploads/2022/03/220309-25.png') no-repeat center center;
-    background-size: cover;
-    height: 350px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: white;">
-    <div class="overlay" style="
-        position: absolute;
-        width: 100%;
+<style>
+    html, body {
         height: 100%;
-        background: rgba(0, 0, 0, 0.4);
+        background: url('https://images.unsplash.com/photo-1566073771259-6a8506099945') no-repeat center center fixed;
+        background-size: cover;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+
+    .main-wrapper {
+        min-height: 100vh;
+        background: transparent;
+    }
+
+    .container,
+    .row,
+    .col-md-4 {
+        background-color: transparent !important;
+    }
+
+    .main-wrapper {
+        padding-bottom: 50px;
+    }
+
+    .hero-banner {
+        position: relative;
+        background: url('https://inboundperu.com/wp-content/uploads/2022/03/220309-25.png') no-repeat center center;
+        background-size: cover;
+        height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+    }
+
+        .hero-banner .overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+    .menu-card {
+        background: linear-gradient(135deg, #007bff, #00bcd4);
+        color: white;
+        padding: 35px 20px;
+        border-radius: 18px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 1.2rem;
+        font-weight: bold;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        align-items: center;">
-        <h1 class="hero-title" style="font-size: 3rem; font-weight: 700; color: #fff; text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);">
-            Bienvenido al Hotel Erika
-        </h1>
-        <p class="hero-subtitle" style="font-size: 1.5rem; color: #fff; opacity: 0.9;">
-            Gestión eficiente para hoteles y hospedajes
-        </p>
+        align-items: center;
+    }
+
+        .menu-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, #0062cc, #0097a7);
+        }
+
+        .menu-card i {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+        }
+
+    .container {
+        background-color: transparent !important;
+    }
+
+    .gallery-card {
+        border-radius: 12px;
+        overflow: hidden;
+        backdrop-filter: blur(4px);
+        background-color: rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+        .gallery-card:hover {
+            transform: scale(1.03);
+        }
+
+        .gallery-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .gallery-card p {
+            margin: 0;
+            padding: 12px;
+            font-weight: 600;
+            text-align: center;
+            font-size: 1rem;
+            color: white;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+        }
+
+    h2 {
+        color: white;
+        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+        font-weight: bold;
+    }
+
+    .row, .col-md-4 {
+        background-color: transparent !important;
+    }
+</style>
+
+<div class="main-wrapper">
+
+    <!-- Hero con imagen principal -->
+    <div class="hero-banner">
+        <div class="overlay">
+            <h1 class="display-4 fw-bold">Bienvenido al Hotel Erika</h1>
+            <p class="lead fw-normal">Gestión eficiente para hoteles y hospedajes</p>
+        </div>
     </div>
-</div>
 
-<!-- Menú principal -->
-<div class="container mt-5">
-    <div class="grid-menu" style="
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-        gap: 20px;
-        padding: 20px;
-        text-align: center;">
+    <!-- Menú principal -->
+    <div class="container mt-5">
+        <div class="grid-menu" style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            padding: 20px;">
 
-        @if (rolId == 2)
-        {
-            <a asp-controller="MantenedorCliente" asp-action="Listar" class="grid-item" style="background: linear-gradient(135deg, #004a99, #0074d9); color: white; padding: 35px 20px; border-radius: 10px; text-decoration: none; font-size: 1.2rem; font-weight: bold; display: flex; flex-direction: column; align-items: center;">
-                <i class="fas fa-user" style="font-size: 3rem; margin-bottom: 10px;"></i>
-                <span>Clientes</span>
+            @if (rolId == 2)
+            {
+                <a asp-controller="MantenedorCliente" asp-action="Listar" class="menu-card">
+                    <i class="fas fa-user"></i>
+                    <span>Clientes</span>
+                </a>
+            }
+
+            <a asp-controller="Reserva" asp-action="Index" class="menu-card">
+                <i class="fas fa-calendar-check"></i>
+                <span>Reservas</span>
             </a>
-        }
 
-        <a asp-controller="MantenedorReserva" asp-action="Listar" class="grid-item" style="background: linear-gradient(135deg, #004a99, #0074d9); color: white; padding: 35px 20px; border-radius: 10px; text-decoration: none; font-size: 1.2rem; font-weight: bold; display: flex; flex-direction: column; align-items: center;">
-            <i class="fas fa-calendar-check" style="font-size: 3rem; margin-bottom: 10px;"></i>
-            <span>Reservas</span>
-        </a>
+            @if (rolId == 2)
+            {
+                <a asp-controller="Habitacion" asp-action="Index" class="menu-card">
+                    <i class="fas fa-bed"></i>
+                    <span>Habitaciones</span>
+                </a>
+            }
 
-        @if (rolId == 2)
-        {
-            <a asp-controller="Habitacion" asp-action="Index" class="grid-item" style="background: linear-gradient(135deg, #004a99, #0074d9); color: white; padding: 35px 20px; border-radius: 10px; text-decoration: none; font-size: 1.2rem; font-weight: bold; display: flex; flex-direction: column; align-items: center;">
-                <i class="fas fa-bed" style="font-size: 3rem; margin-bottom: 10px;"></i>
-                <span>Habitaciones</span>
-            </a>
-        }
+            @if (rolId == 2 || rolId == 1)
+            {
+                <a asp-controller="Comprobantes" asp-action="Index" class="menu-card">
+                    <i class="fas fa-receipt"></i>
+                    <span>Comprobantes</span>
+                </a>
+            }
 
-        @if (rolId == 2 || rolId == 1)
-        {
-            <a asp-controller="Comprobantes" asp-action="Index" class="grid-item" style="background: linear-gradient(135deg, #004a99, #0074d9); color: white; padding: 35px 20px; border-radius: 10px; text-decoration: none; font-size: 1.2rem; font-weight: bold; display: flex; flex-direction: column; align-items: center;">
-                <i class="fas fa-receipt" style="font-size: 3rem; margin-bottom: 10px;"></i>
-                <span>Comprobantes</span>
-            </a>
-        }
 
-        @if (rolId == 2)
-        {
-            <a asp-controller="Usuarios" asp-action="Index" class="grid-item" style="background: linear-gradient(135deg, #004a99, #0074d9); color: white; padding: 35px 20px; border-radius: 10px; text-decoration: none; font-size: 1.2rem; font-weight: bold; display: flex; flex-direction: column; align-items: center;">
-                <i class="fas fa-user-shield" style="font-size: 3rem; margin-bottom: 10px;"></i>
-                <span>Usuarios</span>
-            </a>
-        }
+        </div>
     </div>
-</div>
 
-<!-- Galería turística -->
-<div class="container mt-5">
-    <h2 class="text-center mb-4">Descubre Trujillo y Puerto Malabrigo</h2>
-    <div class="row g-4">
+    <!-- Galería turística -->
+    <div class="container mt-5 mb-5">
+        <h2 class="text-center mb-4 fw-bold">Descubre Trujillo y Puerto Malabrigo</h2>
+        <div class="row g-4">
+            @{
+                var imagenes = new[] {
+                        new { Url = "https://cloudfront-us-east-1.images.arcpublishing.com/infobae/H3RV262UBRDURITW4BLNTMOLJE.png", Desc = "Playa Huanchaco - Trujillo" },
+                        new { Url = "https://i.pinimg.com/736x/db/1b/c9/db1bc9b685d12941e5790e317085032c.jpg", Desc = "Muelle de Puerto Malabrigo" },
+                        new { Url = "https://peru.info/archivos/publicacion/19-imagen-1324472912018.jpg", Desc = "Complejo Arqueológico Chan Chan" },
+                        new { Url = "https://bigbenhuanchaco.com/wp-content/uploads/2021/12/Muelle-de-huanchaco-845x684.png", Desc = "Huanchaco desde el Muelle" },
+                        new { Url = "https://cf.bstatic.com/xdata/images/hotel/max1024x768/354644328.jpg?k=9ad5f6f74649275578b26f6f8a64caf73ea550060f340b9d766330c12359fd1d&o=&hp=1", Desc = "Puerto Chicama - Malabrigo" },
+                        new { Url = "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/10/0e/b4/82/plaza-de-armas-de-trujillo.jpg?w=1200&h=-1&s=1", Desc = "Plaza de Armas - Trujillo" }
+                        };
+            }
 
-        <div class="col-md-4">
-            <img src="https://cloudfront-us-east-1.images.arcpublishing.com/infobae/H3RV262UBRDURITW4BLNTMOLJE.png" class="img-fluid rounded shadow-sm" style="height: 300px; object-fit: cover; width: 100%;" alt="Playa Huanchaco">
-            <p class="text-center mt-2">Playa Huanchaco - Trujillo</p>
-        </div>
-
-        <div class="col-md-4">
-            <img src="https://i.pinimg.com/736x/db/1b/c9/db1bc9b685d12941e5790e317085032c.jpg" class="img-fluid rounded shadow-sm" style="height: 300px; object-fit: cover; width: 100%;" alt="Muelle de Malabrigo">
-            <p class="text-center mt-2">Muelle de Puerto Malabrigo</p>
-        </div>
-
-        <div class="col-md-4">
-            <img src="https://peru.info/archivos/publicacion/19-imagen-1324472912018.jpg" class="img-fluid rounded shadow-sm" style="height: 300px; object-fit: cover; width: 100%;" alt="Chan Chan">
-            <p class="text-center mt-2">Complejo Arqueológico Chan Chan</p>
-        </div>
-
-        <div class="col-md-4">
-            <img src="https://bigbenhuanchaco.com/wp-content/uploads/2021/12/Muelle-de-huanchaco-845x684.png" class="img-fluid rounded shadow-sm" style="height: 300px; object-fit: cover; width: 100%;" alt="Huanchaco">
-            <p class="text-center mt-2">Huanchaco desde el Muelle</p>
-        </div>
-
-        <div class="col-md-4">
-            <img src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/354644328.jpg?k=9ad5f6f74649275578b26f6f8a64caf73ea550060f340b9d766330c12359fd1d&o=&hp=1" class="img-fluid rounded shadow-sm" style="height: 300px; object-fit: cover; width: 100%;" alt="Puerto Chicama">
-            <p class="text-center mt-2">Puerto Chicama - Malabrigo</p>
-        </div>
-
-        <div class="col-md-4">
-            <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/10/0e/b4/82/plaza-de-armas-de-trujillo.jpg?w=1200&h=-1&s=1" class="img-fluid rounded shadow-sm" style="height: 300px; object-fit: cover; width: 100%;" alt="Plaza de Armas Trujillo">
-            <p class="text-center mt-2">Plaza de Armas - Trujillo</p>
+            @foreach (var img in imagenes)
+            {
+                <div class="col-md-4">
+                    <div class="gallery-card">
+                        <img src="@img.Url" alt="@img.Desc">
+                        <p>@img.Desc</p>
+                    </div>
+                </div>
+            }
         </div>
     </div>
 </div>
